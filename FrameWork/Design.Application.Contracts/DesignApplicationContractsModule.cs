@@ -1,7 +1,7 @@
 ﻿using Volo.Abp.Application;
 using Volo.Abp.Modularity;
 
-namespace AbpDesign.Application.Contracts
+namespace Design.Application.Contracts
 {
     [DependsOn(
         typeof(AbpDddApplicationContractsModule)
