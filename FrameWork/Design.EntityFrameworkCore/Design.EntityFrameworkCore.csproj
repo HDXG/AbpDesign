@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Application" Version="8.2.1" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="8.2.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Design.Application.Contracts\Design.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Design.Domain\Design.Domain.csproj" />
   </ItemGroup>
 
 </Project>
