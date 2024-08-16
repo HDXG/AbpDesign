@@ -4,7 +4,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Design.EntityFrameworkCore.EntityFrameworkCore
 {
     public abstract class DesignEfCoreContext<TDbContext>(DbContextOptions<TDbContext> options)
-        :AbpDbContext<TDbContext>(options), IAbpEfCoreDbContext
+        :AbpDbContext<TDbContext>(options), IDesignEfCoreContext
         where TDbContext : DbContext,IDesignEfCoreContext
     {
 

@@ -1,12 +1,10 @@
 ﻿using Design.HttpApi.Extensions;
 using Microsoft.AspNetCore.Mvc;
-
-namespace DesignSetup.Host.Controllers
+namespace DesignSetup.HttpApi.Controllers
 {
     [ApiController]
-    [Area("Setup")]
     [Route("api/Setup/[controller]/[action]")]
-    public  class HomeController : DesignControllerBase
+    public class HomeController : DesignControllerBase
     {
         [HttpGet]
         public string Index() => GetDemo();

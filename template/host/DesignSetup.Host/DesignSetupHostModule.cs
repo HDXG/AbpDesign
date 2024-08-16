@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
+﻿using Design.HttpApi;
+using DesignSetup.HttpApi;
+using DesignSetup.Infrastructure;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Autofac;
-using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Modularity;
 
 namespace DesignSetup.Host
 {
     [DependsOn(
-        typeof(AbpAspNetCoreMvcModule),
+        typeof(DesignSetupHttpApiModule),
+        typeof(DesignSetupInfrastructureModule),
         typeof(AbpEntityFrameworkCoreSqlServerModule),
+        typeof(AbpAspNetCoreMvcModule),
         typeof(AbpAutofacModule)
         )]
     public class DesignSetupHostModule:AbpModule
@@ -38,13 +39,14 @@ namespace DesignSetup.Host
             // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+               
             }
             app.UseHttpsRedirection();
             app.UseCorrelationId();
             app.UseAuthorization();
             app.UseStaticFiles();
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseRouting();
             app.UseCors();
             app.UseConfiguredEndpoints(option =>
