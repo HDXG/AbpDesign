@@ -9,8 +9,9 @@ namespace DesignSetup.Domain.Users
 {
     public class User : AggregateRoot<Guid>
     {
-        public string Account { get; set; }
         public string UserName { get; set; }
-        public string Password { get; set; }
+        public string AccountNumber { get; set; }
+        public string PassWord { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace DesignSetup.Infrastructure.EntityFrameworkCore
 
             builder.Entity<User>(b =>
             {
-                b.ToTable("Users", DesignSetupDomainOptions.DbTablePrefix);
+                b.ToTable("User", DesignSetupDomainOptions.DbTablePrefix);
                 b.HasKey(a => a.Id);
             });
 

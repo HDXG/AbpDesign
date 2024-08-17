@@ -12,8 +12,8 @@ namespace DesignSetup.Domain
 
         public const string MobileApplicationName = "ProjectName.Mobile";
 
-        public const string ConnectionStringName = "ProjectNameDB";
+        public const string ConnectionStringName = "ctwContext";
 
-        public const string DbTablePrefix = "db";
+        public const string DbTablePrefix = "dbo";
     }
 }

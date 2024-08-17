@@ -1,5 +1,6 @@
 ﻿using Design.HttpApi;
 using DesignSetup.Domain;
+using DesignSetup.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AspNetCore;
 using Volo.Abp.Modularity;
@@ -7,6 +8,8 @@ using Volo.Abp.Modularity;
 namespace DesignSetup.HttpApi
 {
     [DependsOn(
+
+        typeof(DesignSetupInfrastructureModule),
         typeof(AbpAspNetCoreModule),
         typeof(DesignHttpApiModule),
         typeof(DesignSetupDomainModule)

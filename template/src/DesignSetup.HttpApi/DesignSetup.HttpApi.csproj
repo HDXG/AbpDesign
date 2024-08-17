@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\FrameWork\Design.HttpApi\Design.HttpApi.csproj" />
     <ProjectReference Include="..\DesignSetup.Domain\DesignSetup.Domain.csproj" />
+    <ProjectReference Include="..\DesignSetup.IInfrastructure\DesignSetup.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
