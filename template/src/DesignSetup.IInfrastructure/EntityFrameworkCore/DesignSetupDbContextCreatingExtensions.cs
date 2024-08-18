@@ -7,6 +7,7 @@ using DesignSetup.Domain;
 using DesignSetup.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace DesignSetup.Infrastructure.EntityFrameworkCore
 {

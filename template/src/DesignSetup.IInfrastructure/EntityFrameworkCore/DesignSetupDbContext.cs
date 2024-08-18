@@ -14,7 +14,7 @@ namespace DesignSetup.Infrastructure.EntityFrameworkCore
     [ConnectionStringName(DesignSetupDomainOptions.ConnectionStringName)]
     public  class DesignSetupDbContext(DbContextOptions<DesignSetupDbContext> dbContextOptions):DesignEfCoreContext<DesignSetupDbContext>(dbContextOptions)
     {
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

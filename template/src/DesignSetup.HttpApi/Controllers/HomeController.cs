@@ -8,6 +8,6 @@ namespace DesignSetup.HttpApi.Controllers
     public class HomeController(IUserAppService userAppService) : DesignControllerBase
     {
         [HttpGet]
-        public ActionResult GetUserList()=>Ok(userAppService.GetUsers());
+        public async Task<object> GetUserList()=>await userAppService.GetUsers() ;
     }
 }
