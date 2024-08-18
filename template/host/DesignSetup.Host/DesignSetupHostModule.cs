@@ -1,11 +1,20 @@
-﻿using Design.HttpApi;
+﻿using System.Reflection;
+using Design.HttpApi;
+using DesignAspNetCore.Extensions;
+using DesignAspNetCore.SwaggerExtensions;
+using DesignSetup.Application;
+using DesignSetup.Domain;
 using DesignSetup.HttpApi;
 using DesignSetup.Infrastructure;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.Auditing;
 using Volo.Abp.Autofac;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
@@ -14,8 +23,8 @@ using Volo.Abp.Modularity;
 namespace DesignSetup.Host
 {
     [DependsOn(
-        typeof(DesignSetupHttpApiModule),
-
+        typeof(DesignSetupApplicationModule),
+        typeof(DesignAspNetCoreModule),
         typeof(AbpEntityFrameworkCoreSqlServerModule),
         typeof(AbpAspNetCoreMvcModule),
         typeof(AbpAutofacModule)
@@ -43,27 +52,18 @@ namespace DesignSetup.Host
                 });
             });
 
-            // 跨域
-            context.Services.AddCors(options =>
+
+            Configure<AbpAuditingOptions>(options =>
             {
-                options.AddDefaultPolicy(builder =>
-                {
-                    builder
-                        .WithOrigins(
-                            configuration["App:CorsOrigins"]?
-                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                                .Select(o => o.RemovePostFix("/"))
-                                .ToArray() ?? []
-                        )
-                        .WithAbpExposedHeaders()
-                        .SetIsOriginAllowedToAllowWildcardSubdomains()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
+                options.ApplicationName = DesignSetupDomainOptions.ApplicationName;
+                options.IsEnabledForGetRequests = true;
             });
 
-            context.Services.AddSwaggerGen();
+            context.Services.ConfigurationFilters();
+            // 跨域
+            context.Services.ConfigurationUseCore(configuration);
+            context.Services.ConfigurationSwagger(swaggerConfiguration());
+           
         }
 
         /// <summary>
@@ -78,20 +78,33 @@ namespace DesignSetup.Host
             // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
             {
-               
-            }
+                app.UseDeveloperExceptionPage();
+            }else
+                app.UseHsts();
             app.UseHttpsRedirection();
             app.UseCorrelationId();
-            app.UseAuthorization();
             app.UseStaticFiles();
-            app.UseSwagger();
-            app.UseSwaggerUI();
             app.UseRouting();
             app.UseCors();
+
+            app.UseSwagger(swaggerConfiguration());
+            app.UseAuditing();
             app.UseConfiguredEndpoints(option =>
             {
 
             });
+        }
+
+
+        public SwaggerExtensionsOptions swaggerConfiguration()
+        {
+            return new SwaggerExtensionsOptions()
+            {
+                apiServiceName = "DesignSetup",
+                swaggerInfo = new List<SwaggerOptions>() {
+                    new SwaggerOptions() {ServiceName="setup",
+                    openApiInfos=new OpenApiInfo(){Title="DesignSetup",Description="DesignSetup详情",Version="1.0" } } }
+            };
         }
     }
 }

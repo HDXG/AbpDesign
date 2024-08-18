@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FrameWork\Design.EntityFrameworkCore\Design.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\FrameWork\Design.Application.Contracts\Design.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\FrameWork\Design.Application\Design.Application.csproj" />
     <ProjectReference Include="..\DesignSetup.Domain\DesignSetup.Domain.csproj" />
+    <ProjectReference Include="..\DesignSetup.IInfrastructure\DesignSetup.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

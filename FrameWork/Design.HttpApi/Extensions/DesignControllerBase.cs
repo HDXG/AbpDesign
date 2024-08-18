@@ -1,5 +1,6 @@
 ﻿using Volo.Abp.AspNetCore.Mvc;
-
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
 namespace Design.HttpApi.Extensions
 {
     /// <summary>
@@ -7,9 +8,10 @@ namespace Design.HttpApi.Extensions
     /// </summary>
     public  class DesignControllerBase: AbpControllerBase
     {
-        protected string GetDemo()
+        protected FileContentResult FileByExcel(byte[] bytes, string fileName)
         {
-            return "123";
+            return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
+
     }
 }

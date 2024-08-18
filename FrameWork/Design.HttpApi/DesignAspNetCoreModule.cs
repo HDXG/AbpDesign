@@ -6,7 +6,7 @@ namespace Design.HttpApi
     [DependsOn(
          typeof(AbpAspNetCoreModule)
         )]
-    public class DesignHttpApiModule:AbpModule
+    public class DesignAspNetCoreModule:AbpModule
     {
 
     }

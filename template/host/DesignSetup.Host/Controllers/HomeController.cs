@@ -1,10 +1,11 @@
 ﻿using Design.HttpApi.Extensions;
+using DesignSetup.Application.Users;
+using DesignSetup.Application.Users.Dtos;
 using DesignSetup.Domain;
-using DesignSetup.Infrastructure.Users;
-using DesignSetup.Infrastructure.Users.Dtos;
 using Microsoft.AspNetCore.Mvc;
 namespace DesignSetup.HttpApi.Controllers
 {
+    [ApiExplorerSettings(GroupName = "setup")]
     [ApiController]
     [Area(DesignSetupDomainOptions.ApplicationName)]
     [Route("api/Setup/[controller]/[action]")]

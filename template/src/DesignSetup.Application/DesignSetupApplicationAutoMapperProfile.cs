@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using Design.Application;
+using DesignSetup.Application.Users.Dtos;
 using DesignSetup.Domain.Users;
-using DesignSetup.Infrastructure.Users.Dtos;
 
-namespace DesignSetup.Infrastructure
+namespace DesignSetup.Application
 {
-    public class DesignSetupApplicationAutoMapperProfile: DesignApplicationAutoMapperProfile
+    public class DesignSetupApplicationAutoMapperProfile : DesignApplicationAutoMapperProfile
     {
         public DesignSetupApplicationAutoMapperProfile()
         {
