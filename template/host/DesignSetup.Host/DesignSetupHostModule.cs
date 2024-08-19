@@ -1,19 +1,13 @@
-﻿using System.Reflection;
-using Design.HttpApi;
+﻿using Design.HttpApi;
 using DesignAspNetCore.Extensions;
 using DesignAspNetCore.SwaggerExtensions;
 using DesignSetup.Application;
 using DesignSetup.Domain;
-using DesignSetup.HttpApi;
-using DesignSetup.Infrastructure;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.Auditing;
 using Volo.Abp.Autofac;
 using Volo.Abp.EntityFrameworkCore;
@@ -63,7 +57,15 @@ namespace DesignSetup.Host
             // 跨域
             context.Services.ConfigurationUseCore(configuration);
             context.Services.ConfigurationSwagger(swaggerConfiguration());
-           
+            //CSRF/XSRF 和防伪造系统
+            Configure<AbpAntiForgeryOptions>(options =>
+            {
+                options.TokenCookie.Expiration = TimeSpan.FromDays(365);
+                options.AutoValidateIgnoredHttpMethods.Remove("POST");
+                options.AutoValidateFilter =
+                    type => !type.Namespace.StartsWith("DesignSetup.HttpApi");
+            });
+
         }
 
         /// <summary>
@@ -81,18 +83,21 @@ namespace DesignSetup.Host
                 app.UseDeveloperExceptionPage();
             }else
                 app.UseHsts();
+
+        
             app.UseHttpsRedirection();
             app.UseCorrelationId();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors();
-
-            app.UseSwagger(swaggerConfiguration());
+            
             app.UseAuditing();
             app.UseConfiguredEndpoints(option =>
             {
 
             });
+            app.UseAuthorization();
+            app.UseSwagger(swaggerConfiguration());
         }
 
 

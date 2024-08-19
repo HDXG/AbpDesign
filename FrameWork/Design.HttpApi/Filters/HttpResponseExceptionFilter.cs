@@ -10,31 +10,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DesignAspNetCore.Filter
 {
-    public class HttpResponseExceptionFilter : IActionFilter
+    public class HttpResponseExceptionFilter : IExceptionFilter
     {
+        private const int ErrorStatusCode = 500;
+        private readonly Stopwatch watch = new Stopwatch();
         private readonly IWebHostEnvironment webHostEnvironment;
         public HttpResponseExceptionFilter(IWebHostEnvironment webHostEnvironment)
         {
+            watch.Start();
             this.webHostEnvironment = webHostEnvironment;
         }
-        private const int ErrorStatusCode = 500;
-        private readonly Stopwatch watch = new Stopwatch();
-
-
-        /// <summary>
-        /// 先执行
-        /// </summary>
-        /// <param name="context"></param>
-        public void OnActionExecuting(ActionExecutingContext context)
-        {
-            //计时开始
-            watch.Start();
-        }
-        /// <summary>
-        /// 后执行
-        /// </summary>
-        /// <param name="context"></param>
-        public void OnActionExecuted(ActionExecutedContext context)
+     
+        
+        public void OnException(ExceptionContext context)
         {
             watch.Stop();//计时结束
             if (context.Exception != null)
@@ -48,10 +36,7 @@ namespace DesignAspNetCore.Filter
                 };
                 context.ExceptionHandled = true;
             }
-
         }
-
-
     }
     /// <summary>
     /// 异常：返回数据格式
