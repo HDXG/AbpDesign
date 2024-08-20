@@ -12,6 +12,11 @@ namespace DesignAspNetCore.SwaggerExtensions
     {
         #region swagger配置中心
 
+        /// <summary>
+        /// 注册Swagger服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="swaggerExtensionsOptions"></param>
         public static void ConfigurationSwagger(this IServiceCollection services, SwaggerExtensionsOptions swaggerExtensionsOptions)
         {
             services.AddSwaggerGen(

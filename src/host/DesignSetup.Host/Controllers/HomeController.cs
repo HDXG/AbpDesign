@@ -4,7 +4,7 @@ using DesignSetup.Application.Users.Dtos;
 using DesignSetup.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
-namespace DesignSetup.HttpApi.Controllers
+namespace DesignSetup.Host.Controllers
 {
     [ApiExplorerSettings(GroupName = "setup")]
     [ApiController]

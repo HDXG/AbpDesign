@@ -1,5 +1,6 @@
 ﻿using Design.HttpApi;
 using DesignAspNetCore.Extensions;
+using DesignAspNetCore.JwtExtensions;
 using DesignAspNetCore.SwaggerExtensions;
 using DesignSetup.Application;
 using DesignSetup.Domain;
@@ -53,8 +54,8 @@ namespace DesignSetup.Host
                 options.IsEnabledForGetRequests = true;
             });
 
+            context.Services.ConfigurationJwt(configuration);
             context.Services.ConfigurationFilters();
-            // 跨域
             context.Services.ConfigurationUseCore(configuration);
             context.Services.ConfigurationSwagger(swaggerConfiguration());
             //CSRF/XSRF 和防伪造系统
@@ -63,7 +64,7 @@ namespace DesignSetup.Host
                 options.TokenCookie.Expiration = TimeSpan.FromDays(365);
                 options.AutoValidateIgnoredHttpMethods.Remove("POST");
                 options.AutoValidateFilter =
-                    type => !type.Namespace.StartsWith("DesignSetup.HttpApi");
+                    type => !type.Namespace.StartsWith("DesignSetup.Host.Controllers");
             });
 
         }
@@ -90,13 +91,13 @@ namespace DesignSetup.Host
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors();
-            
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseAuditing();
             app.UseConfiguredEndpoints(option =>
             {
-
+                option.MapControllers().RequireAuthorization();
             });
-            app.UseAuthorization();
             app.UseSwagger(swaggerConfiguration());
         }
 

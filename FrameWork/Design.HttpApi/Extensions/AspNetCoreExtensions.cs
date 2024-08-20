@@ -18,6 +18,11 @@ namespace DesignAspNetCore.Extensions
     {
         #region 跨域内容
 
+        /// <summary>
+        /// 服务注册----跨域
+        /// </summary>
+        /// <param name="Services"></param>
+        /// <param name="configuration"></param>
         public static void ConfigurationUseCore(this IServiceCollection Services, IConfiguration configuration)
         {
             Services.AddCors(options =>
@@ -43,6 +48,10 @@ namespace DesignAspNetCore.Extensions
         #endregion
         #region 添加过滤器
 
+        /// <summary>
+        /// 统一返回格式过滤器
+        /// </summary>
+        /// <param name="services"></param>
         public static void ConfigurationFilters(this IServiceCollection services)
         {
             services.AddControllers(option =>
