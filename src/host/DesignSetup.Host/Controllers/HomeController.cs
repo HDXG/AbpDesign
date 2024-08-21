@@ -1,8 +1,10 @@
-﻿using Design.HttpApi.Extensions;
+﻿using Design.Application.Contracts.Services;
+using Design.HttpApi.Extensions;
 using DesignSetup.Application.Users;
 using DesignSetup.Application.Users.Dtos;
 using DesignSetup.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 namespace DesignSetup.Host.Controllers
 {
@@ -26,13 +28,10 @@ namespace DesignSetup.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<List<UserDto>> GetUserListDto() => await userAppService.GetUsers();
+        public Task<List<UserDto>> GetUserListDto() =>  userAppService.GetUsers();
 
 
-        [HttpGet]
-        public int GetUserDto()
-        {
-            return Convert.ToInt32("234fafa");
-        }
+        [HttpPost]
+        public Task<PagedResultOutPut<UserDto>> GetPagedResultAsync()=> userAppService.GetPagedResultAsync();
     }
 }

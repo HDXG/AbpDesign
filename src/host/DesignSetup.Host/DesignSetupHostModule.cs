@@ -96,7 +96,7 @@ namespace DesignSetup.Host
             app.UseAuditing();
             app.UseConfiguredEndpoints(option =>
             {
-                option.MapControllers().RequireAuthorization();
+                //option.MapControllers().RequireAuthorization();
             });
             app.UseSwagger(swaggerConfiguration());
         }

@@ -15,14 +15,24 @@ namespace Design.EntityFrameworkCore.Repositories
     where TEntity : class, IEntity<TKey>
     {
        
-        public virtual async Task<(int, List<TEntity>)> GetPagedListAsync<Key>(int skipCount, int taskCount, Expression<Func<TEntity, bool>> wherePredicate, Func<TEntity, Key> orderPredicate,bool isReverse=true)
+        public  async Task<(int, List<TEntity>)> GetPagedListAsync<Key>(int skipCount, int taskCount, Expression<Func<TEntity, bool>> wherePredicate, Func<TEntity, Key> orderPredicate,bool isReverse=true)
         {
             IQueryable<TEntity> Queryable = (await GetQueryableAsync()).Where(wherePredicate);
             var count = await Queryable.CountAsync();
-            Queryable = (IQueryable<TEntity>)(isReverse ? Queryable.OrderByDescending(orderPredicate) : Queryable.OrderBy(orderPredicate));
+            Queryable =(isReverse ? Queryable.OrderByDescending(orderPredicate) : Queryable.OrderBy(orderPredicate)).AsQueryable();
             return (count, await Queryable.Skip(skipCount).Take(taskCount).ToListAsync());
         }
 
+        /// <summary>
+        /// 默认分页内容
+        /// </summary>
+        /// <typeparam name="Key"></typeparam>
+        /// <param name="wherePredicate"></param>
+        /// <param name="orderPredicate"></param>
+        /// <param name="pageIndex">默认第一页</param>
+        /// <param name="pageSize">页数</param>
+        /// <param name="isReverse">true 倒叙</param>
+        /// <returns></returns>
         public virtual Task<(int, List<TEntity>)> GetPagedListAsync<Key>(Expression<Func<TEntity, bool>> wherePredicate, Func<TEntity, Key> orderPredicate, int pageIndex = 1, int pageSize = 10, bool isReverse = true)
         {
             return GetPagedListAsync((pageIndex - 1) * pageSize, pageSize, wherePredicate, orderPredicate, isReverse);
