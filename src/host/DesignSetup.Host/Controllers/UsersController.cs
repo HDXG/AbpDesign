@@ -1,20 +1,38 @@
-﻿using Design.HttpApi.Extensions;
-using DesignSetup.Domain;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Design.Application.Contracts.Services;
+using Design.HttpApi.Extensions;
 using DesignAspNetCore.JwtExtensions;
-using System.Security.Claims;
+using DesignSetup.Application.SysUsers;
+using DesignSetup.Application.SysUsers.Dtos;
+using DesignSetup.Domain;
+using DesignSetup.Domain.SysUsers;
 using Microsoft.AspNetCore.Authorization;
-using YamlDotNet.Core.Tokens;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DesignSetup.Host.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiExplorerSettings(GroupName = "setup")]
     [ApiController]
     [Area(DesignSetupDomainOptions.ApplicationName)]
     [Route("api/Setup/[controller]/[action]")]
-    public class UsersController (IConfiguration services) : DesignControllerBase
+    public class UsersController (IConfiguration services,
+        ISysUserAppService _sysUserAppService) : DesignControllerBase
     {
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<SysUser> InsertUserAsync(SysUserDto t)=> _sysUserAppService.InsertUserAsync(t);
+
+        /// <summary>
+        /// 返回用户集合内容
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<PagedResultOutPut<SysUserDto>> GetPagedResult() => _sysUserAppService.GetPagedResultAsync();
 
         /// <summary>
         /// 创建token内容

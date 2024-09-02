@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Design.Application;
-using DesignSetup.Application.Users.Dtos;
-using DesignSetup.Domain.Users;
+﻿using Design.Application;
+using DesignSetup.Application.SysMenuPermissiones.Dtos;
+using DesignSetup.Application.SysUsers.Dtos;
+using DesignSetup.Domain.SysMenuPermissiones;
+using DesignSetup.Domain.SysUsers;
 
 namespace DesignSetup.Application
 {
@@ -13,7 +10,8 @@ namespace DesignSetup.Application
     {
         public DesignSetupApplicationAutoMapperProfile()
         {
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<SysUser, SysUserDto>().ReverseMap();
+            CreateMap<SysMenuPermissions, SysMenuPermissionsDto>().ReverseMap();
         }
     }
 }

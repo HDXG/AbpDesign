@@ -1,26 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DesignSetup.Domain;
-using DesignSetup.Domain.Users;
+﻿using DesignSetup.Domain;
+using DesignSetup.Domain.SysMenuPermissiones;
+using DesignSetup.Domain.SysUsers;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
-using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace DesignSetup.Infrastructure.EntityFrameworkCore
 {
-    
+
     public static class DesignSetupDbContextCreatingExtensions
     {
         public static void ConfigureProjectName(this ModelBuilder builder)
         {
             Check.NotNull(builder, nameof(builder));
 
-            builder.Entity<User>(b =>
+            builder.Entity<SysUser>(b =>
             {
-                b.ToTable("User", DesignSetupDomainOptions.DbTablePrefix);
+                b.ToTable("SysUser", DesignSetupDomainOptions.DbTablePrefix);
+                b.HasKey(a => a.Id);
+            });
+
+            builder.Entity<SysMenuPermissions>(b =>
+            {
+                b.ToTable("SysMenuPermissions", DesignSetupDomainOptions.DbTablePrefix);
                 b.HasKey(a => a.Id);
             });
 

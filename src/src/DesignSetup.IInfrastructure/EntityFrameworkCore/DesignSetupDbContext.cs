@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Design.EntityFrameworkCore.EntityFrameworkCore;
+﻿using Design.EntityFrameworkCore.EntityFrameworkCore;
 using DesignSetup.Domain;
-using DesignSetup.Domain.Users;
+using DesignSetup.Domain.SysMenuPermissiones;
+using DesignSetup.Domain.SysUsers;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 
@@ -14,7 +10,8 @@ namespace DesignSetup.Infrastructure.EntityFrameworkCore
     [ConnectionStringName(DesignSetupDomainOptions.ConnectionStringName)]
     public  class DesignSetupDbContext(DbContextOptions<DesignSetupDbContext> dbContextOptions):DesignEfCoreContext<DesignSetupDbContext>(dbContextOptions)
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<SysUser> sysUsers { get; set; } 
+        public DbSet<SysMenuPermissions> SysMenuPermissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
