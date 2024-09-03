@@ -9,5 +9,13 @@ namespace DesignSetup.Domain.SysMenuPermissiones
 {
     public interface ISysMenuPermissionsRepository:IDesignRepository<SysMenuPermissions,Guid>
     {
+        /// <summary>
+        /// 根据用户Id 获取用户的菜单内容
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public Task<List<SysMenuPermissions>> GetUserRoleIdMenuList(Guid Id);
+
+        public Task<List<string>> GetUserRoleIdBtnList(Guid Id);
     }
 }

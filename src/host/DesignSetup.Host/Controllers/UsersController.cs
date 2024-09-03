@@ -28,6 +28,14 @@ namespace DesignSetup.Host.Controllers
         public Task<SysUser> InsertUserAsync(SysUserDto t)=> _sysUserAppService.InsertUserAsync(t);
 
         /// <summary>
+        /// 修改用户 并且返回最新用户集合
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<PagedResultOutPut<SysUserDto>> UpdateGetPagedResult(SysUserDto t)=>_sysUserAppService.UpdateGetPagedResultAsync(t);
+
+        /// <summary>
         /// 返回用户集合内容
         /// </summary>
         /// <returns></returns>

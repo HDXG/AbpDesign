@@ -7,7 +7,8 @@ namespace DesignSetup.Application.SysUsers
 {
     public interface ISysUserAppService: IDedsiApplicationService
     {
-        Task<SysUser> InsertUserAsync(SysUserDto t);
+        Task<PagedResultOutPut<SysUserDto>> InsertUserAsync(SysUserDto t);
+        Task<PagedResultOutPut<SysUserDto>> UpdateGetPagedResultAsync(SysUserDto t);
         Task<PagedResultOutPut<SysUserDto>> GetPagedResultAsync();
     }
     public class SysUserAppService(ISysUserRepository _sysUserRepository) : DesignApplicationService, ISysUserAppService
@@ -19,10 +20,17 @@ namespace DesignSetup.Application.SysUsers
             return new PagedResultOutPut<SysUserDto>(data.Item1, list);
         }
 
-        public async Task<SysUser> InsertUserAsync(SysUserDto t)
+        public async Task<PagedResultOutPut<SysUserDto>> InsertUserAsync(SysUserDto t)
         {
             t.Id=Guid.NewGuid();
-            return await _sysUserRepository.InsertAsync(ObjectMapper.Map<SysUserDto, SysUser>(t));
+            await _sysUserRepository.InsertAsync(ObjectMapper.Map<SysUserDto, SysUser>(t));
+            return await GetPagedResultAsync();
+        }
+
+        public async Task<PagedResultOutPut<SysUserDto>> UpdateGetPagedResultAsync(SysUserDto t)
+        {
+            await _sysUserRepository.UpdateAsync(ObjectMapper.Map<SysUserDto,SysUser>(t));
+            return await GetPagedResultAsync();
         }
     }
 }

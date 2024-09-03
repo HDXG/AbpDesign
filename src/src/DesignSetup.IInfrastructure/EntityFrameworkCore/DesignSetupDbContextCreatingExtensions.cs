@@ -1,5 +1,8 @@
 ﻿using DesignSetup.Domain;
 using DesignSetup.Domain.SysMenuPermissiones;
+using DesignSetup.Domain.SysRoleMenus;
+using DesignSetup.Domain.SysRoles;
+using DesignSetup.Domain.SysUserRoles;
 using DesignSetup.Domain.SysUsers;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
@@ -25,6 +28,22 @@ namespace DesignSetup.Infrastructure.EntityFrameworkCore
                 b.HasKey(a => a.Id);
             });
 
+            builder.Entity<SysRoleMenu>(b =>
+            {
+                b.ToTable("SysRoleMenu", DesignSetupDomainOptions.DbTablePrefix);
+                b.HasKey(a => a.Id);
+            });
+
+            builder.Entity<SysRole>(b =>
+            {
+                b.ToTable("SysRole", DesignSetupDomainOptions.DbTablePrefix);
+                b.HasKey(a => a.Id);
+            });
+            builder.Entity<SysUserRole>(b =>
+            {
+                b.ToTable("SysUserRole", DesignSetupDomainOptions.DbTablePrefix);
+                b.HasKey(a => a.Id);
+            });
         }
     }
 }

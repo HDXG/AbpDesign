@@ -16,4 +16,6 @@ namespace DesignSetup.Domain
 
         public const string DbTablePrefix = "dbo";
     }
+
+   
 }
