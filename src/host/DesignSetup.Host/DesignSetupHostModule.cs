@@ -4,6 +4,7 @@ using DesignAspNetCore.JwtExtensions;
 using DesignAspNetCore.SwaggerExtensions;
 using DesignSetup.Application;
 using DesignSetup.Domain;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Volo.Abp;
@@ -66,7 +67,6 @@ namespace DesignSetup.Host
                 options.AutoValidateFilter =
                     type => !type.Namespace.StartsWith("DesignSetup.Host.Controllers");
             });
-
         }
 
         /// <summary>

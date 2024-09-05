@@ -12,7 +12,7 @@ namespace DesignSetup.Application.SysRoles.Dtos
     {
         public string RoleName { get; set; }
         public string Note { get; set; }
-        public string IsDefault { get; set; }
-        public string IsStatus { get; set; }
+        public bool IsDefault { get; set; }
+        public bool IsStatus { get; set; }
     }
 }

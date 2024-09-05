@@ -41,8 +41,8 @@ namespace DesignAspNetCore.Filter
     /// <summary>
     /// 异常：返回数据格式
     /// </summary>
-    /// <param name="Code"></param>
-    /// <param name="Message"></param>
+    /// <param name="code"></param>
+    /// <param name="msg"></param>
     /// <param name="ServiceTime"></param>
-    public record HttpResponseError(int Code, string Message, DateTime ServiceTime, long TimeOut);
+    public record HttpResponseError(int code, string msg, DateTime ServiceTime, long TimeOut);
 }

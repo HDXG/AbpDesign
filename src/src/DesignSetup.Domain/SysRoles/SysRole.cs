@@ -12,9 +12,9 @@ namespace DesignSetup.Domain.SysRoles
         public string Note { get; set; }
 
         [Description("是否默认角色")]
-        public string IsDefault { get; set; }
+        public bool IsDefault { get; set; }
 
-        [Description("是否启用")]
-        public string IsStatus { get; set; }
+        [Description("角色状态")]
+        public bool IsStatus { get; set; }
     }
 }

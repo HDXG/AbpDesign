@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using DesignAspNetCore.Filter;
 using Microsoft.AspNetCore.Cors;
@@ -36,11 +38,13 @@ namespace DesignAspNetCore.Extensions
                                 .Select(o => o.RemovePostFix("/"))
                                 .ToArray() ?? []
                         )
-                        .WithAbpExposedHeaders()
-                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyOrigin()
                         .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                        .AllowAnyMethod();
+                    //.WithAbpExposedHeaders()
+                    //.AllowAnyHeader()
+                    //.AllowAnyMethod()
+                    //.AllowCredentials();
                 });
             });
         }
@@ -58,9 +62,31 @@ namespace DesignAspNetCore.Extensions
             {
                 option.Filters.Add<HttpResponseExceptionFilter>();
                 option.Filters.Add<HttpResponseSuccessFilter>();
+            }).AddJsonOptions(options => {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                //空字段不响应Response
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                //时间格式化响应
+                options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter("yyyy-MM-dd HH:mm:ss"));
             });
         }
 
         #endregion
+    }
+    public class DateTimeJsonConverter : JsonConverter<DateTime>
+    {
+        private readonly string Format;
+        public DateTimeJsonConverter(string format)
+        {
+            Format = format;
+        }
+        public override void Write(Utf8JsonWriter writer, DateTime date, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(date.ToString(Format));
+        }
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return DateTime.ParseExact(reader.GetString(), Format, null);
+        }
     }
 }

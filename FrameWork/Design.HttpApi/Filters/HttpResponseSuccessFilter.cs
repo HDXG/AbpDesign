@@ -56,10 +56,10 @@ namespace DesignAspNetCore.Filter
     /// <summary>
     /// 成功：返回数据格式
     /// </summary>
-    /// <param name="Code"></param>
-    /// <param name="Data"></param>
-    /// <param name="Message"></param>
+    /// <param name="code"></param>
+    /// <param name="data"></param>
+    /// <param name="msg"></param>
     /// <param name="ServiceTime"></param>
     /// <param name="TimeOut"></param>
-    public record HttpResponseSuccess(HttpStatusCode Code, object Data, string Message, DateTime ServiceTime, long TimeOut);
+    public record HttpResponseSuccess(HttpStatusCode code, object data, string msg, DateTime ServiceTime, long TimeOut);
 }

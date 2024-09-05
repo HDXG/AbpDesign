@@ -24,8 +24,8 @@ namespace DesignSetup.Host.Controllers
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        [HttpPost]
-        public Task<SysUser> InsertUserAsync(SysUserDto t)=> _sysUserAppService.InsertUserAsync(t);
+        //[HttpPost]
+        //public Task<SysUser> InsertUserAsync(SysUserDto t)=> _sysUserAppService.InsertUserAsync(t);
 
         /// <summary>
         /// 修改用户 并且返回最新用户集合
