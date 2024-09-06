@@ -13,6 +13,7 @@ create table SysRole(
 	Note nvarchar(200) ,
 	IsDefault bit not null,
 	IsStatus bit not null,
+	Order int not null,
 	IsDelete bit not null,
 	CreateTime datetime not null
 )

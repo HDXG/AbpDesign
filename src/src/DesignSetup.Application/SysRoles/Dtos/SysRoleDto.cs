@@ -14,5 +14,6 @@ namespace DesignSetup.Application.SysRoles.Dtos
         public string Note { get; set; }
         public bool IsDefault { get; set; }
         public bool IsStatus { get; set; }
+        public int Order { get; set; }
     }
 }

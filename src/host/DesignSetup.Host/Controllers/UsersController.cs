@@ -4,6 +4,7 @@ using Design.HttpApi.Extensions;
 using DesignAspNetCore.JwtExtensions;
 using DesignSetup.Application.SysUsers;
 using DesignSetup.Application.SysUsers.Dtos;
+using DesignSetup.Application.SysUsers.InPuts;
 using DesignSetup.Domain;
 using DesignSetup.Domain.SysUsers;
 using Microsoft.AspNetCore.Authorization;
@@ -24,8 +25,8 @@ namespace DesignSetup.Host.Controllers
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        //[HttpPost]
-        //public Task<SysUser> InsertUserAsync(SysUserDto t)=> _sysUserAppService.InsertUserAsync(t);
+        [HttpPost]
+        public Task<bool> InsertUserAsync(SysUserDto t)=> _sysUserAppService.InsertUserAsync(t);
 
         /// <summary>
         /// 修改用户 并且返回最新用户集合
@@ -33,14 +34,14 @@ namespace DesignSetup.Host.Controllers
         /// <param name="t"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<PagedResultOutPut<SysUserDto>> UpdateGetPagedResult(SysUserDto t)=>_sysUserAppService.UpdateGetPagedResultAsync(t);
+        public Task<bool> UpdateGetPagedResult(SysUserDto t)=>_sysUserAppService.UpdateGetPagedResultAsync(t);
 
         /// <summary>
         /// 返回用户集合内容
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Task<PagedResultOutPut<SysUserDto>> GetPagedResult() => _sysUserAppService.GetPagedResultAsync();
+        public Task<PagedResultOutPut<SysUserDto>> GetPagedResult(GetUserPageListInPut t) => _sysUserAppService.GetPagedResultAsync(t);
 
         /// <summary>
         /// 创建token内容

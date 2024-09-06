@@ -16,5 +16,8 @@ namespace DesignSetup.Domain.SysRoles
 
         [Description("角色状态")]
         public bool IsStatus { get; set; }
+
+        [Description("显示顺序")]
+        public int Order { get; set; }
     }
 }

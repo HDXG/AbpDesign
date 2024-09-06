@@ -33,7 +33,7 @@ namespace Design.EntityFrameworkCore.Repositories
         /// <param name="pageSize">页数</param>
         /// <param name="isReverse">true 倒叙</param>
         /// <returns></returns>
-        public virtual Task<(int, List<TEntity>)> GetPagedListAsync<Key>(Expression<Func<TEntity, bool>> wherePredicate, Func<TEntity, Key> orderPredicate, int pageIndex = 1, int pageSize = 10, bool isReverse = true)
+        public virtual Task<(int, List<TEntity>)> GetPagedListAsync<Key>(Expression<Func<TEntity, bool>> wherePredicate, Func<TEntity, Key> orderPredicate, bool isReverse = true, int pageIndex = 1, int pageSize = 10)
         {
             return GetPagedListAsync((pageIndex - 1) * pageSize, pageSize, wherePredicate, orderPredicate, isReverse);
         }
