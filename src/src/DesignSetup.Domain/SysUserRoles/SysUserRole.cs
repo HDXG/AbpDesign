@@ -11,6 +11,9 @@ namespace DesignSetup.Domain.SysUserRoles
         [Description("角色Id")]
         public Guid RoleId { get; set; }
 
+        public SysUserRole(Guid id): base(id)
+        {
 
+        }
     }
 }

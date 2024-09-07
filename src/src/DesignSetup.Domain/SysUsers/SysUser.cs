@@ -30,5 +30,9 @@ namespace DesignSetup.Domain.SysUsers
         /// 用户状态
         /// </summary>
         public bool IsStatus { get; set; }
+        public SysUser(Guid id) : base(id)
+        {
+
+        }
     }
 }

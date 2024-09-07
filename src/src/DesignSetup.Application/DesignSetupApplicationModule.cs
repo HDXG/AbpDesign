@@ -20,7 +20,7 @@ namespace DesignSetup.Application
             context.Services.AddAutoMapperObjectMapper<DesignSetupApplicationModule>();
             Configure<AbpAutoMapperOptions>(options =>
             {
-                options.AddMaps<DesignSetupApplicationModule>(validate: true);
+                options.AddMaps<DesignSetupApplicationModule>(validate: false);
             });
         }
     }

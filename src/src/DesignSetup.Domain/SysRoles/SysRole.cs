@@ -19,5 +19,10 @@ namespace DesignSetup.Domain.SysRoles
 
         [Description("显示顺序")]
         public int Order { get; set; }
+
+        public SysRole(Guid id) : base(id)
+        {
+
+        }
     }
 }

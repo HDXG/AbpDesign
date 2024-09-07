@@ -1,10 +1,12 @@
 ﻿using System.Security.Claims;
+using Design.Application.Contracts.Extensions;
 using Design.Application.Contracts.Services;
 using Design.HttpApi.Extensions;
 using DesignAspNetCore.JwtExtensions;
 using DesignSetup.Application.SysUsers;
 using DesignSetup.Application.SysUsers.Dtos;
 using DesignSetup.Application.SysUsers.InPuts;
+using DesignSetup.Application.SysUsers.OutPuts;
 using DesignSetup.Domain;
 using DesignSetup.Domain.SysUsers;
 using Microsoft.AspNetCore.Authorization;
@@ -16,32 +18,25 @@ namespace DesignSetup.Host.Controllers
     [ApiExplorerSettings(GroupName = "setup")]
     [ApiController]
     [Area(DesignSetupDomainOptions.ApplicationName)]
-    [Route("api/Setup/[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class UsersController (IConfiguration services,
         ISysUserAppService _sysUserAppService) : DesignControllerBase
     {
-        /// <summary>
-        /// 添加用户
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
         [HttpPost]
-        public Task<bool> InsertUserAsync(SysUserDto t)=> _sysUserAppService.InsertUserAsync(t);
+        public Task<bool> InsertUser(InsertUserOutPut t)=> _sysUserAppService.InsertUserAsync(t);
 
-        /// <summary>
-        /// 修改用户 并且返回最新用户集合
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
         [HttpPost]
-        public Task<bool> UpdateGetPagedResult(SysUserDto t)=>_sysUserAppService.UpdateGetPagedResultAsync(t);
+        public Task<bool> UpdateUser(InsertUserOutPut t)=>_sysUserAppService.UpdateUserAsync(t);
 
-        /// <summary>
-        /// 返回用户集合内容
-        /// </summary>
-        /// <returns></returns>
         [HttpPost]
-        public Task<PagedResultOutPut<SysUserDto>> GetPagedResult(GetUserPageListInPut t) => _sysUserAppService.GetPagedResultAsync(t);
+        public Task<PagedResultOutPut<GetUserListDto>> GetPagedResult(GetUserPageListInPut t) => _sysUserAppService.GetPagedResultAsync(t);
+
+        [HttpPost]
+        public Task<bool> Delete(GetDto t)=>_sysUserAppService.DeleteAsync(t);
+
+        [HttpPost]
+        public Task<GetUserOutPut> GetUser(GetDto t) => _sysUserAppService.GetUserDto(t);
+
 
         /// <summary>
         /// 创建token内容
@@ -57,8 +52,6 @@ namespace DesignSetup.Host.Controllers
             claims.Add(new Claim("Role", "管理员"));
             return JwtHelper.CreateTokenClaim(services, claims);
         }
-
-
         /// <summary>
         /// 解析
         /// </summary>

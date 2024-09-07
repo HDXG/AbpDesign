@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Design.Application.Contracts.Extensions;
 using Design.Application.Contracts.Services;
 using Design.Application.Services;
@@ -26,6 +22,9 @@ namespace DesignSetup.Application.SysRoles
         Task<SysRoleDto> GetRoleAsync(GetDto Id);
 
         Task<bool> DeletePageAsync(GetDto t);
+
+        Task<List<RoleListDto>> RoleList();
+
     }
     public class SysRoleAppService(ISysRoleRepository _roleRepository) : DesignApplicationService, ISysRoleAppService
     {
@@ -33,11 +32,6 @@ namespace DesignSetup.Application.SysRoles
         {
             await _roleRepository.DeleteAsync(x => x.Id == t.Id);
             return true;
-        }
-
-        public Task<SysRoleDto> GetRoleAsync(Guid Id)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<SysRoleDto> GetRoleAsync(GetDto t) => ObjectMapper.Map<SysRole,SysRoleDto>(await _roleRepository.GetAsync(x => x.Id == t.Id));
@@ -50,6 +44,9 @@ namespace DesignSetup.Application.SysRoles
                 );
             return new PagedResultOutPut<SysRoleDto>(data.Item1,ObjectMapper.Map<List<SysRole>,List<SysRoleDto>>(data.Item2));
         }
+
+        public async Task<List<RoleListDto>> RoleList() =>
+            ObjectMapper.Map<List<SysRole>, List<RoleListDto>>(await _roleRepository.GetListAsync(x => x.IsStatus));
 
         public async Task<bool> UpdateRoleAsync(SysRoleDto t) => await _roleRepository.UpdateAsync(ObjectMapper.Map<SysRoleDto,SysRole>(t)) != null;
     }

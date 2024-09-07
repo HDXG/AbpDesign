@@ -28,5 +28,10 @@ namespace DesignSetup.Domain.SysMenuPermissiones
         [Description("按钮权限标识")]
         public string Identification { get; set; }
 
+        public SysMenuPermissions(Guid id) : base(id)
+        {
+
+        }
+
     }
 }

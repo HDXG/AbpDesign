@@ -16,11 +16,13 @@ namespace DesignSetup.Application
     {
         public DesignSetupApplicationAutoMapperProfile()
         {
-            CreateMap<SysUser, SysUserDto>().ReverseMap();
+           
             CreateMap<SysMenuPermissions, SysMenuPermissionsDto>().ReverseMap();
             CreateMap<SysRoleMenu, SysRoleMenuDto>().ReverseMap();
-            CreateMap<SysRole, SysRoleDto>().ReverseMap();
             CreateMap<SysUserRole, SysUserRoleDto>().ReverseMap();
+            CreateMap<SysRole, SysRoleDto>().ReverseMap();
+            CreateMap<SysRole, RoleListDto>().ReverseMap();
+            CreateMap<SysUser, SysUserDto>().ReverseMap();
         }
     }
 }

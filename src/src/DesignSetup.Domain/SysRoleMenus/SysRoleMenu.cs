@@ -13,5 +13,9 @@ namespace DesignSetup.Domain.SysRoleMenus
 
         [Description("菜单/权限Id")]
         public Guid MenuId { get; set; }
+        public SysRoleMenu(Guid id) : base(id)
+        {
+
+        }
     }
 }
