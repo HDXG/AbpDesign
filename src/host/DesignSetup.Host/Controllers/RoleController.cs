@@ -1,6 +1,8 @@
 ﻿using Design.Application.Contracts.Extensions;
 using Design.Application.Contracts.Services;
 using Design.HttpApi.Extensions;
+using DesignSetup.Application.SysMenuPermissiones;
+using DesignSetup.Application.SysMenuPermissiones.OutPuts;
 using DesignSetup.Application.SysRoles;
 using DesignSetup.Application.SysRoles.Dtos;
 using DesignSetup.Domain;
@@ -16,14 +18,17 @@ namespace DesignSetup.Host.Controllers
     [ApiController]
     [Area(DesignSetupDomainOptions.ApplicationName)]
     [Route("api/[controller]/[action]")]
-    public class RoleController(ISysRoleAppService _RoleService) : DesignControllerBase
+    public class RoleController(ISysRoleAppService _RoleService,
+        ISysMenuPermissionsAppService _menu) : DesignControllerBase
     {
         [HttpPost]
         public Task<PagedResultOutPut<SysRoleDto>> PagedResult(GetPageRoleDto t) => _RoleService.PagedResultAsync(t);
         [HttpPost]
         public Task<bool> InsertRole(SysRoleDto t)=>_RoleService.InsertRoleAsync(t);
+
         [HttpPost]
         public Task<bool> UpdateRole(SysRoleDto t) => _RoleService.UpdateRoleAsync(t);
+
         [HttpPost]
         public Task<SysRoleDto> GetRole(GetDto t)=>_RoleService.GetRoleAsync(t);
         
@@ -32,6 +37,9 @@ namespace DesignSetup.Host.Controllers
 
         [HttpPost]
         public Task<List<RoleListDto>> RoleList() => _RoleService.RoleList();
+
+        [HttpPost]
+         public Task<List<TreePermissionsOutPut>> TreePermissionsAsync()=>_menu.TreePermissionsAsync();
 
     }
 }
