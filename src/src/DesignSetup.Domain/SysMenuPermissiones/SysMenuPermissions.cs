@@ -37,7 +37,7 @@ namespace DesignSetup.Domain.SysMenuPermissiones
         [Description("是否启用")]
         public bool IsStatus { get; set; }
 
-
+        public int Order { get; set; }
 
 
 

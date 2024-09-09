@@ -20,5 +20,6 @@ namespace DesignSetup.Application.SysMenuPermissiones.Dtos
         public string Identification { get; set; }
 
         public bool IsStatus { get; set; }
+        public int Order { get; set; }
     }
 }

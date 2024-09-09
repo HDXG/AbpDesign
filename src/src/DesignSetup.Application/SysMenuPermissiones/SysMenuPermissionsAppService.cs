@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using Design.Application.Contracts.Extensions;
-using Design.Application.Contracts.Services;
+﻿using Design.Application.Contracts.Extensions;
 using Design.Application.Services;
 using DesignSetup.Application.SysMenuPermissiones.Dtos;
+using DesignSetup.Application.SysMenuPermissiones.InPuts;
 using DesignSetup.Application.SysMenuPermissiones.OutPuts;
 using DesignSetup.Domain.SysMenuPermissiones;
 
@@ -14,7 +13,7 @@ namespace DesignSetup.Application.SysMenuPermissiones
         /// 分页返回菜单列表
         /// </summary>
         /// <returns></returns>
-        Task<PagedResultOutPut<SysMenuPermissionsDto>> PagedResultAsync();
+        Task<PopedTableOutPut> PagedResultAsync(PagedResultInPut t);
 
         /// <summary>
         /// 添加菜单/按钮
@@ -43,14 +42,6 @@ namespace DesignSetup.Application.SysMenuPermissiones
         /// <returns></returns>
         Task<List<TreeSelectOutPut>> TreeSelectAsync();
 
-        /// <summary>
-        /// 角色管理 分配菜单权限使用
-        /// </summary>
-        /// <returns></returns>
-        Task<List<TreePermissionsOutPut>> TreePermissionsAsync();
-
-       
-
     }
     public class SysMenuPermissionsAppService(ISysMenuPermissionsRepository _sysMenuRepository) : DesignApplicationService, ISysMenuPermissionsAppService
     {
@@ -58,29 +49,26 @@ namespace DesignSetup.Application.SysMenuPermissiones
 
         public async Task<bool> InsertMenuAsync(SysMenuPermissionsDto t) => await _sysMenuRepository.InsertAsync(ObjectMapper.Map<SysMenuPermissionsDto, SysMenuPermissions>(t)) != null;
 
-        public async Task<PagedResultOutPut<SysMenuPermissionsDto>> PagedResultAsync()
-        {
-            var data = await _sysMenuRepository.GetPagedListAsync(x => x.MenuName.StartsWith(""), a => a.CreateTime);
-            List<SysMenuPermissionsDto> list = ObjectMapper.Map<List<SysMenuPermissions>, List<SysMenuPermissionsDto>>(data.Item2);
-            return new PagedResultOutPut<SysMenuPermissionsDto>(data.Item1, list);
-        }
+      
 
 
         public async Task<bool> UpdateMenuAsync(SysMenuPermissionsDto t) => await _sysMenuRepository.UpdateAsync(ObjectMapper.Map<SysMenuPermissionsDto, SysMenuPermissions>(t)) != null;
 
+        #region 选择菜单递归
         public async Task<List<TreeSelectOutPut>> TreeSelectAsync()
         {
             List<TreeSelectOutPut> treeSelectOuts = new List<TreeSelectOutPut>();
-            List<SysMenuPermissions> sysMenus = await _sysMenuRepository.GetListAsync(x => x.IsDelete && x.IsStatus && x.MenuType!=2);
-            treeSelectOuts.Add(new TreeSelectOutPut() { 
-                label="顶级菜单",
-                value= Guid.Empty,
-                children= RecursionMenu(sysMenus,Guid.Empty)
+            List<SysMenuPermissions> sysMenus = await _sysMenuRepository.GetListAsync(x => x.IsDelete && x.IsStatus && x.MenuType != 2);
+            treeSelectOuts.Add(new TreeSelectOutPut()
+            {
+                label = "顶级菜单",
+                value = Guid.Empty,
+                children = RecursionMenu(sysMenus, Guid.Empty)
             });
             return treeSelectOuts;
         }
 
-        private List<TreeSelectOutPut> RecursionMenu(List<SysMenuPermissions> sysMenus,Guid faterId)
+        private List<TreeSelectOutPut> RecursionMenu(List<SysMenuPermissions> sysMenus, Guid faterId)
         {
             List<TreeSelectOutPut> tree = new List<TreeSelectOutPut>();
             foreach (var item in sysMenus.Where(x => x.Fatherid == faterId))
@@ -89,41 +77,47 @@ namespace DesignSetup.Application.SysMenuPermissiones
                 {
                     label = item.MenuName,
                     value = item.Id,
-                    children = RecursionMenu(sysMenus,item.Id)
+                    children = RecursionMenu(sysMenus, item.Id)
                 });
             }
             return tree;
         }
+        #endregion
 
-        public async Task<List<TreePermissionsOutPut>> TreePermissionsAsync()
+        #region 菜单表格加载递归
+        public async Task<PopedTableOutPut> PagedResultAsync(PagedResultInPut t)
         {
-            List<TreePermissionsOutPut> treePermissions = new List<TreePermissionsOutPut>();
-            List<SysMenuPermissions> sysMenus = await _sysMenuRepository.GetListAsync(x => x.IsDelete && x.IsStatus);
-            foreach (var item in sysMenus.Where(x=>x.Fatherid==Guid.Empty))
+            PopedTableOutPut popedTableOutPut = new PopedTableOutPut();
+            List<PopedTableChilderOutPut> popedTables = new List<PopedTableChilderOutPut>();
+            var list = await _sysMenuRepository.GetListAsync(x => x.IsStatus & x.IsDelete);
+            int SerialNumber = 1;
+            foreach (var item in list.Where(x => x.MenuType == 0).OrderBy(x => x.Order))
             {
-                treePermissions.Add(new TreePermissionsOutPut()
-                {
-                    id = item.Id,
-                    label = item.MenuName,
-                    children = RecursionTreePermissions(sysMenus,item.Id)
-                });
+                PopedTableChilderOutPut popedTableChilderOutPut = ObjectMapper.Map<SysMenuPermissions, PopedTableChilderOutPut>(item);
+                SerialNumber++;
+                popedTableChilderOutPut.children = childerMenu(list, item.Id);
+                popedTables.Add(popedTableChilderOutPut);
             }
-            return treePermissions;
+            popedTableOutPut.TotalCount = popedTables.Count;
+            popedTableOutPut.Items = popedTables.Skip((t.PageIndex - 1) * t.PageSize).Take(t.PageSize).ToList();
+            return popedTableOutPut;
         }
 
-        private List<TreePermissionsOutPut> RecursionTreePermissions(List<SysMenuPermissions> sysMenus,Guid faterId)
+        private List<PopedTableChilderOutPut> childerMenu(List<SysMenuPermissions> list, Guid Id)
         {
-            List<TreePermissionsOutPut> tree = new List<TreePermissionsOutPut>();
-            foreach (var item in sysMenus.Where(x => x.Fatherid == faterId))
+            List<PopedTableChilderOutPut> popedTreeOutPuts = new List<PopedTableChilderOutPut>();
+            int SerialNumber = 1;
+            foreach (var item in list.Where(x => x.Fatherid == Id).OrderBy(x=>x.Order))
             {
-                tree.Add(new TreePermissionsOutPut()
-                {
-                    label = item.MenuName,
-                    id = item.Id,
-                    children = RecursionTreePermissions(sysMenus, item.Id)
-                });
+                PopedTableChilderOutPut popedTableChilderOutPut = ObjectMapper.Map<SysMenuPermissions, PopedTableChilderOutPut>(item);
+                popedTableChilderOutPut.children = childerMenu(list, item.Id);
+                popedTableChilderOutPut.SerialNumber = SerialNumber;
+                SerialNumber++;
+                popedTreeOutPuts.Add(popedTableChilderOutPut);
             }
-            return tree;
+            return popedTreeOutPuts;
         }
+        #endregion
+
     }
 }
