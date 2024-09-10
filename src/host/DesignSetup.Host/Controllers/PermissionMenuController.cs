@@ -32,5 +32,8 @@ namespace DesignSetup.Host.Controllers
 
         [HttpPost]
         public  Task<PopedTableOutPut> PagedResultAsync(PagedResultInPut t) => _menPermission.PagedResultAsync(t);
+
+        [HttpPost]
+        public Task<bool> DeleteMenuAsync(GetDto t) => _menPermission.DeleteMenuAsync(t);
     }
 }

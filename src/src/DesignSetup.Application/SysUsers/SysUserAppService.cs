@@ -25,6 +25,14 @@ namespace DesignSetup.Application.SysUsers
         Task<bool> DeleteAsync(GetDto t);
 
         Task<GetUserOutPut> GetUserDto(GetDto t);
+
+
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        Task<bool> LoginUser(LoginUserInPut t);
     }
     public class SysUserAppService(ISysUserRepository _sysUserRepository,
         ISysRoleRepository _roleRepository,
@@ -104,6 +112,17 @@ namespace DesignSetup.Application.SysUsers
                 await InsertUserRole(t);
             }
             return flag;
+        }
+
+        public async Task<bool> LoginUser(LoginUserInPut t)
+        {
+            SysUser sysUser =await _sysUserRepository.GetAsync(x => x.AccountNumber == t.AccountNumber && x.PassWord == t.PassWord);
+            if (sysUser == null)
+                throw new Exception("当前用户不存在");
+            if (!sysUser.IsDelete || !sysUser.IsStatus)
+                throw new Exception("当前用户不允许登录");
+            return true;
+
         }
     }
 }

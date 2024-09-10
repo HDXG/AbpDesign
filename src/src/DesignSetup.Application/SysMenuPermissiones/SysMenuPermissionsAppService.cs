@@ -42,6 +42,13 @@ namespace DesignSetup.Application.SysMenuPermissiones
         /// <returns></returns>
         Task<List<TreeSelectOutPut>> TreeSelectAsync();
 
+        /// <summary>
+        /// 删除菜单
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        Task<bool> DeleteMenuAsync(GetDto t);
+
     }
     public class SysMenuPermissionsAppService(ISysMenuPermissionsRepository _sysMenuRepository) : DesignApplicationService, ISysMenuPermissionsAppService
     {
@@ -49,8 +56,11 @@ namespace DesignSetup.Application.SysMenuPermissiones
 
         public async Task<bool> InsertMenuAsync(SysMenuPermissionsDto t) => await _sysMenuRepository.InsertAsync(ObjectMapper.Map<SysMenuPermissionsDto, SysMenuPermissions>(t)) != null;
 
-      
-
+        public async Task<bool> DeleteMenuAsync(GetDto t)
+        {
+            await _sysMenuRepository.DeleteAsync(x => x.Id == t.Id);
+            return true;
+        }
 
         public async Task<bool> UpdateMenuAsync(SysMenuPermissionsDto t) => await _sysMenuRepository.UpdateAsync(ObjectMapper.Map<SysMenuPermissionsDto, SysMenuPermissions>(t)) != null;
 
@@ -89,7 +99,7 @@ namespace DesignSetup.Application.SysMenuPermissiones
         {
             PopedTableOutPut popedTableOutPut = new PopedTableOutPut();
             List<PopedTableChilderOutPut> popedTables = new List<PopedTableChilderOutPut>();
-            var list = await _sysMenuRepository.GetListAsync(x => x.IsStatus & x.IsDelete);
+            var list = await _sysMenuRepository.GetListAsync(x =>x.IsDelete);
             int SerialNumber = 1;
             foreach (var item in list.Where(x => x.MenuType == 0).OrderBy(x => x.Order))
             {
