@@ -26,7 +26,6 @@ namespace DesignSetup.Application.SysUsers
 
         Task<GetUserOutPut> GetUserDto(GetDto t);
 
-
         /// <summary>
         /// 用户登录
         /// </summary>
