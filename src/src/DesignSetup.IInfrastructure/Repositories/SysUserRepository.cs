@@ -20,7 +20,8 @@ namespace DesignSetup.Infrastructure.Repositories
                     uu.UserName like @UserName 
                     order by uu.CreateTime desc";
             return await db.Database.SqlQueryRaw<TEntity>(sql, new SqlParameter("@UserName", "%" + UserName + "%")).ToListAsync();
-
         }
+
+
     }
 }

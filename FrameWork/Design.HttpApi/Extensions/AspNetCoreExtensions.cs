@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using DesignAspNetCore.Filter;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace DesignAspNetCore.Extensions
 {
     public static class AspNetCoreExtensions
     {
-        #region 跨域内容
+        #region 跨域
 
         /// <summary>
         /// 服务注册----跨域
@@ -50,6 +40,7 @@ namespace DesignAspNetCore.Extensions
         }
 
         #endregion
+
         #region 添加过滤器
 
         /// <summary>
@@ -73,6 +64,7 @@ namespace DesignAspNetCore.Extensions
 
         #endregion
     }
+    //进行返回时间格式化
     public class DateTimeJsonConverter : JsonConverter<DateTime>
     {
         private readonly string Format;

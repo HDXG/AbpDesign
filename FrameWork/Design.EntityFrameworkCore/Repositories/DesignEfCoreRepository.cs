@@ -8,11 +8,7 @@ using Volo.Abp.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace Design.EntityFrameworkCore.Repositories
 {
-    public abstract class DesignEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<TDbContext> dbContextProvider)
-    : EfCoreRepository<TDbContext, TEntity, TKey>(dbContextProvider),
-       IDesignRepository<TEntity, TKey>
-    where TDbContext : IDesignEfCoreContext
-    where TEntity : class, IEntity<TKey>
+    public abstract class DesignEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<TDbContext> dbContextProvider): EfCoreRepository<TDbContext, TEntity, TKey>(dbContextProvider),IDesignRepository<TEntity, TKey> where TDbContext : IDesignEfCoreContext where TEntity : class, IEntity<TKey>
     {
        
         public  async Task<(int, List<TEntity>)> GetPagedListAsync<Key>(int skipCount, int taskCount, Expression<Func<TEntity, bool>> wherePredicate, Func<TEntity, Key> orderPredicate,bool isReverse=true)

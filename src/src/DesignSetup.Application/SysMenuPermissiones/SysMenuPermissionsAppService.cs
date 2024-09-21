@@ -101,7 +101,7 @@ namespace DesignSetup.Application.SysMenuPermissiones
             List<PopedTableChilderOutPut> popedTables = new List<PopedTableChilderOutPut>();
             var list = await _sysMenuRepository.GetListAsync(x =>x.IsDelete);
             int SerialNumber = 1;
-            foreach (var item in list.Where(x => x.MenuType == 0).OrderBy(x => x.Order))
+            foreach (var item in list.Where(x => x.Fatherid==Guid.Empty).OrderBy(x => x.Order))
             {
                 PopedTableChilderOutPut popedTableChilderOutPut = ObjectMapper.Map<SysMenuPermissions, PopedTableChilderOutPut>(item);
                 SerialNumber++;

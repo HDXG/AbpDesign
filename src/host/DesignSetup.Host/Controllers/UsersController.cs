@@ -38,6 +38,13 @@ namespace DesignSetup.Host.Controllers
         public Task<GetUserOutPut> GetUser(GetDto t) => _sysUserAppService.GetUserDto(t);
 
 
+        [HttpPost]
+        public Task<GetLogInOutPut> GetLoginUser(LoginUserInPut t) => _sysUserAppService.GetLogIn(t);
+
+        [HttpPost]
+        public Task<List<loginUserMenuOutPut>> GetByUserIdMenu(GetDto t) =>
+            _sysUserAppService.GetByUserIdMenu(t.Id);
+
         /// <summary>
         /// 创建token内容
         /// </summary>

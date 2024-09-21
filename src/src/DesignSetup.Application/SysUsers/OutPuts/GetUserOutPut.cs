@@ -6,7 +6,7 @@ namespace DesignSetup.Application.SysUsers.OutPuts
     public class GetUserOutPut
     {
         public SysUserDto model { get; set; }
-        public  List<Guid> roleIds { get; set; }
 
+        public  List<Guid> roleIds { get; set; }
     }
 }

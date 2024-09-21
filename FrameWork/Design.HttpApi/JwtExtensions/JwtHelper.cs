@@ -53,9 +53,9 @@ namespace DesignAspNetCore.JwtExtensions
             for (int i = 0; i < keys.Count; i++)
             {
                 var item = keys.ElementAt(i);
-                object value = null;
+                object? value = null;
                 jwtToken.Payload.TryGetValue(item.Key,out value);
-                keys[item.Key]=value;
+                keys[item.Key] = value;
             }
            return keys;
         }

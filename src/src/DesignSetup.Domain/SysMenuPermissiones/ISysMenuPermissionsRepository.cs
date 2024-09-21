@@ -16,6 +16,11 @@ namespace DesignSetup.Domain.SysMenuPermissiones
         /// <returns></returns>
         public Task<List<SysMenuPermissions>> GetUserRoleIdMenuList(Guid Id);
 
+        /// <summary>
+        /// 根据用户Id 获取当前用户的 所有按钮权限
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public Task<List<string>> GetUserRoleIdBtnList(Guid Id);
     }
 }

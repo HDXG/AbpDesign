@@ -4,6 +4,7 @@ using Design.Application.Services;
 using DesignSetup.Application.SysUsers.Dtos;
 using DesignSetup.Application.SysUsers.InPuts;
 using DesignSetup.Application.SysUsers.OutPuts;
+using DesignSetup.Domain.SysMenuPermissiones;
 using DesignSetup.Domain.SysRoles;
 using DesignSetup.Domain.SysUserRoles;
 using DesignSetup.Domain.SysUsers;
@@ -24,6 +25,11 @@ namespace DesignSetup.Application.SysUsers
 
         Task<bool> DeleteAsync(GetDto t);
 
+        /// <summary>
+        /// 根据用户Id返回用户信息
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         Task<GetUserOutPut> GetUserDto(GetDto t);
 
         /// <summary>
@@ -31,11 +37,19 @@ namespace DesignSetup.Application.SysUsers
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        Task<bool> LoginUser(LoginUserInPut t);
+        Task<GetLogInOutPut> GetLogIn(LoginUserInPut t);
+
+        /// <summary>
+        /// 根据用户Id 直接返回菜单列表
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        Task<List<loginUserMenuOutPut>> GetByUserIdMenu(Guid Id);
     }
     public class SysUserAppService(ISysUserRepository _sysUserRepository,
         ISysRoleRepository _roleRepository,
-        ISysUserRoleRepository _userRolePepository) : DesignApplicationService, ISysUserAppService
+        ISysUserRoleRepository _userRolePepository,
+        ISysMenuPermissionsRepository _menuPermissions) : DesignApplicationService, ISysUserAppService
     {
         public async Task<bool> DeleteAsync(GetDto t)
         {
@@ -113,15 +127,62 @@ namespace DesignSetup.Application.SysUsers
             return flag;
         }
 
-        public async Task<bool> LoginUser(LoginUserInPut t)
+        #region 用户登录
+
+        public async Task<GetLogInOutPut> GetLogIn(LoginUserInPut t)
         {
-            SysUser sysUser =await _sysUserRepository.GetAsync(x => x.AccountNumber == t.AccountNumber && x.PassWord == t.PassWord);
+            GetLogInOutPut getLogIn = new GetLogInOutPut();
+            SysUser sysUser =await _sysUserRepository.FirstOrDefaultAsync(x => x.AccountNumber == t.AccountNumber && x.PassWord == t.PassWord)??new SysUser(Guid.Empty);
             if (sysUser == null)
                 throw new Exception("当前用户不存在");
             if (!sysUser.IsDelete || !sysUser.IsStatus)
                 throw new Exception("当前用户不允许登录");
-            return true;
 
+            getLogIn.UserInfo = new GetLogInUserInfoDto(sysUser.UserName,sysUser.Id);
+            getLogIn.menuList = await GetByUserIdMenu(sysUser.Id);
+            return getLogIn;
         }
+
+        public async Task<List<loginUserMenuOutPut>> GetByUserIdMenu(Guid id)
+        {
+            List<loginUserMenuOutPut> menuList = new List<loginUserMenuOutPut>();
+            var getUserMenu = await _menuPermissions.GetUserRoleIdMenuList(id);
+            foreach (var item in getUserMenu.Where(x => x.Fatherid == Guid.Empty))
+            {
+                menuList.Add(new loginUserMenuOutPut()
+                {
+                    title = item.MenuName,
+                    ComponentPath = item.ComponentPath,
+                    RouteName = item.RouteName,
+                    MenuUrl = item.MenuUrl,
+                    Icon = item.Icon,
+                    children = ChildLoginUserMenuOutPuts(getUserMenu, item.Id)
+                });
+            }
+
+            return menuList;
+        }
+
+        private List<loginUserMenuOutPut> ChildLoginUserMenuOutPuts(List<SysMenuPermissions> list, Guid id)
+        {
+            List<loginUserMenuOutPut> menuList = new List<loginUserMenuOutPut>();
+
+            foreach (var item in list.Where(x => x.Fatherid ==id))
+            {
+                menuList.Add(new loginUserMenuOutPut()
+                {
+                    title = item.MenuName,
+                    ComponentPath = item.ComponentPath,
+                    RouteName = item.RouteName,
+                    MenuUrl = item.MenuUrl,
+                    Icon = item.Icon,
+                    children = ChildLoginUserMenuOutPuts(list,item.Id)
+                });
+            }
+
+            return menuList;
+        }
+
+        #endregion
     }
 }
