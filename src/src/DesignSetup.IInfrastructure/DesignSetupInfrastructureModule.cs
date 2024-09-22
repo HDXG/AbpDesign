@@ -14,7 +14,6 @@ namespace DesignSetup.Infrastructure
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-           
             context.Services.AddAbpDbContext<DesignSetupDbContext>(options =>
             {
                 options.AddDefaultRepositories(true);

@@ -7,7 +7,6 @@ using DesignSetup.Application.SysRoles;
 using DesignSetup.Application.SysRoles.Dtos;
 using DesignSetup.Application.SysRoles.InPuts;
 using DesignSetup.Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesignSetup.Host.Controllers
@@ -19,30 +18,30 @@ namespace DesignSetup.Host.Controllers
     [ApiController]
     [Area(DesignSetupDomainOptions.ApplicationName)]
     [Route("api/[controller]/[action]")]
-    public class RoleController(ISysRoleAppService _RoleService,
+    public class RoleController(ISysRoleAppService roleAppService,
         ISysMenuPermissionsAppService _menu) : DesignControllerBase
     {
         [HttpPost]
-        public Task<PagedResultOutPut<SysRoleDto>> PagedResult(GetPageRoleDto t) => _RoleService.PagedResultAsync(t);
+        public Task<PagedResultOutPut<SysRoleDto>> PagedResult(GetPageRoleDto t) => roleAppService.PagedResultAsync(t);
         [HttpPost]
-        public Task<bool> InsertRole(SysRoleDto t) => _RoleService.InsertRoleAsync(t);
+        public Task<bool> InsertRole(SysRoleDto t) => roleAppService.InsertRoleAsync(t);
 
         [HttpPost]
-        public Task<bool> UpdateRole(SysRoleDto t) => _RoleService.UpdateRoleAsync(t);
+        public Task<bool> UpdateRole(SysRoleDto t) => roleAppService.UpdateRoleAsync(t);
 
         [HttpPost]
-        public Task<SysRoleDto> GetRole(GetDto t) => _RoleService.GetRoleAsync(t);
+        public Task<SysRoleDto> GetRole(GetDto t) => roleAppService.GetRoleAsync(t);
 
         [HttpPost]
-        public Task<bool> DeletePage(GetDto t) => _RoleService.DeletePageAsync(t);
+        public Task<bool> DeletePage(GetDto t) => roleAppService.DeletePageAsync(t);
 
         [HttpPost]
-        public Task<List<RoleListDto>> RoleList() => _RoleService.RoleList();
+        public Task<List<RoleListDto>> RoleList() => roleAppService.RoleList();
 
         [HttpPost]
-        public Task<TreePermissionsOutPut> TreePermissionsAsync(GetDto t)=>_RoleService.TreePermissionsAsync(t);
+        public Task<TreePermissionsOutPut> TreePermissionsAsync(GetDto t)=> roleAppService.TreePermissionsAsync(t);
 
         [HttpPost]
-        public Task<bool> InsertRoleMenuAsync(InsertRoleMenuInPut t) => _RoleService.InsertRoleMenuAsync(t);
+        public Task<bool> InsertRoleMenuAsync(InsertRoleMenuInPut t) => roleAppService.InsertRoleMenuAsync(t);
     }
 }

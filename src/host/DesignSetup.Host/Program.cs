@@ -1,6 +1,4 @@
-
-using Serilog;
-using Serilog.Events;
+using DesignAspNetCore.Extensions;
 
 namespace DesignSetup.Host
 {
@@ -11,18 +9,9 @@ namespace DesignSetup.Host
             var builder = WebApplication.CreateBuilder(args);
             await builder.AddApplicationAsync<DesignSetupHostModule>();
             builder.Host
-             .AddAppSettingsSecretsJson()
-             .UseAutofac()
-             .UseSerilog((context, services, loggerConfiguration) =>
-             {
-                 loggerConfiguration
-                     .MinimumLevel.Information()
-                     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                     .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-                     .Enrich.FromLogContext()
-                     .WriteTo.Async(c => c.File(path: "Logs/logs.txt", rollingInterval: RollingInterval.Hour, retainedFileCountLimit: null))
-                     .WriteTo.Async(c => c.Console());
-             });
+                .AddAppSettingsSecretsJson()
+                .UseAutofac();
+            builder.Host.AddSerilog();
             var app=builder.Build();
             await app.InitializeApplicationAsync();
             await app.RunAsync();

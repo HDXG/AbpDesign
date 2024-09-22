@@ -1,4 +1,5 @@
 ﻿using DesignSetup.Domain;
+using DesignSetup.Domain.Serilogs;
 using DesignSetup.Domain.SysMenuPermissiones;
 using DesignSetup.Domain.SysRoleMenus;
 using DesignSetup.Domain.SysRoles;
@@ -42,6 +43,12 @@ namespace DesignSetup.Infrastructure.EntityFrameworkCore
             builder.Entity<SysUserRole>(b =>
             {
                 b.ToTable("SysUserRole", DesignSetupDomainOptions.DbTablePrefix);
+                b.HasKey(a => a.Id);
+            });
+
+            builder.Entity<Serilog>(b =>
+            {
+                b.ToTable("Serilog", "dbo");
                 b.HasKey(a => a.Id);
             });
         }

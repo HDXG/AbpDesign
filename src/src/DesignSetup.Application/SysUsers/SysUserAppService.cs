@@ -42,27 +42,27 @@ namespace DesignSetup.Application.SysUsers
         /// <summary>
         /// 根据用户Id 直接返回菜单列表
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        Task<List<loginUserMenuOutPut>> GetByUserIdMenu(Guid Id);
+        Task<List<loginUserMenuOutPut>> GetByUserIdMenu(Guid id);
     }
-    public class SysUserAppService(ISysUserRepository _sysUserRepository,
-        ISysRoleRepository _roleRepository,
-        ISysUserRoleRepository _userRolePepository,
-        ISysMenuPermissionsRepository _menuPermissions) : DesignApplicationService, ISysUserAppService
+    public class SysUserAppService(ISysUserRepository sysUserRepository,
+        ISysRoleRepository roleRepository,
+        ISysUserRoleRepository userRoleRepository,
+        ISysMenuPermissionsRepository menuPermissionsRepository) : DesignApplicationService, ISysUserAppService
     {
         public async Task<bool> DeleteAsync(GetDto t)
         {
-            var SysUser = await _sysUserRepository.FirstOrDefaultAsync(x => x.Id == t.Id);
+            var SysUser = await sysUserRepository.FirstOrDefaultAsync(x => x.Id == t.Id);
             SysUser.IsDelete = false;
-            await _sysUserRepository.UpdateAsync(SysUser);
-            await _userRolePepository.DeleteManyAsync(await _userRolePepository.GetListAsync(x => x.UserId == t.Id),true);
+            await sysUserRepository.UpdateAsync(SysUser);
+            await userRoleRepository.DeleteManyAsync(await userRoleRepository.GetListAsync(x => x.UserId == t.Id),true);
             return true;
         }
 
         public async Task<PagedResultOutPut<GetUserListDto>> GetPagedResultAsync(GetUserPageListInPut t)
         {
-            var list = await _sysUserRepository.GetUserListAsync<GetUserListDto>(t.userName);
+            var list = await sysUserRepository.GetUserListAsync<GetUserListDto>(t.userName);
             return new PagedResultOutPut<GetUserListDto>(
                 list.Count,
                 list.Skip((t.PageIndex - 1) * t.PageSize).Take(t.PageSize).ToList());
@@ -70,10 +70,10 @@ namespace DesignSetup.Application.SysUsers
 
         public async Task<GetUserOutPut> GetUserDto(GetDto t)
         {
-            var rolelist = await _userRolePepository.GetListAsync(x => x.UserId == t.Id);
+            var rolelist = await userRoleRepository.GetListAsync(x => x.UserId == t.Id);
             return new GetUserOutPut()
             {
-                model = ObjectMapper.Map<SysUser, SysUserDto>(await _sysUserRepository.GetAsync(x => x.Id == t.Id)),
+                model = ObjectMapper.Map<SysUser, SysUserDto>(await sysUserRepository.GetAsync(x => x.Id == t.Id)),
                 roleIds= rolelist.Select(x => x.RoleId).ToList()
             };
         }
@@ -81,7 +81,7 @@ namespace DesignSetup.Application.SysUsers
         public async Task<bool> InsertUserAsync(InsertUserOutPut t)
         {
 
-            bool flag= await _sysUserRepository.InsertAsync(ObjectMapper.Map<SysUserDto, SysUser>(t.model)) != null;
+            bool flag= await sysUserRepository.InsertAsync(ObjectMapper.Map<SysUserDto, SysUser>(t.model)) != null;
             if (flag)
             {
                 await InsertUserRole(t);
@@ -92,7 +92,7 @@ namespace DesignSetup.Application.SysUsers
         private async Task InsertUserRole(InsertUserOutPut t)
         {
             List<SysUserRole> sysUserRoles = new List<SysUserRole>();
-            var RoleList = await _roleRepository.GetListAsync(x => x.IsDefault && x.IsStatus);
+            var RoleList = await roleRepository.GetListAsync(x => x.IsDefault && x.IsStatus);
 
             List<Guid> guids = new List<Guid>();
             t.guids.ForEach(c => { guids.Add(c); });
@@ -113,15 +113,15 @@ namespace DesignSetup.Application.SysUsers
                     UserId = t.model.Id,
                 });
             });
-            await _userRolePepository.InsertManyAsync(sysUserRoles, true);
+            await userRoleRepository.InsertManyAsync(sysUserRoles, true);
         }
 
         public async Task<bool> UpdateUserAsync(InsertUserOutPut t)
         {
-            bool flag = await _sysUserRepository.UpdateAsync(ObjectMapper.Map<SysUserDto, SysUser>(t.model)) != null;
+            bool flag = await sysUserRepository.UpdateAsync(ObjectMapper.Map<SysUserDto, SysUser>(t.model))!=null;
             if (flag)
             {
-                await _userRolePepository.DeleteManyAsync(await _userRolePepository.GetListAsync(x=>x.UserId==t.model.Id),true );
+                await userRoleRepository.DeleteManyAsync(await userRoleRepository.GetListAsync(x=>x.UserId==t.model.Id),true );
                 await InsertUserRole(t);
             }
             return flag;
@@ -132,7 +132,7 @@ namespace DesignSetup.Application.SysUsers
         public async Task<GetLogInOutPut> GetLogIn(LoginUserInPut t)
         {
             GetLogInOutPut getLogIn = new GetLogInOutPut();
-            SysUser sysUser =await _sysUserRepository.FirstOrDefaultAsync(x => x.AccountNumber == t.AccountNumber && x.PassWord == t.PassWord)??new SysUser(Guid.Empty);
+            SysUser sysUser =await sysUserRepository.FirstOrDefaultAsync(x => x.AccountNumber == t.AccountNumber && x.PassWord == t.PassWord)??new SysUser(Guid.Empty);
             if (sysUser == null)
                 throw new Exception("当前用户不存在");
             if (!sysUser.IsDelete || !sysUser.IsStatus)
@@ -146,7 +146,7 @@ namespace DesignSetup.Application.SysUsers
         public async Task<List<loginUserMenuOutPut>> GetByUserIdMenu(Guid id)
         {
             List<loginUserMenuOutPut> menuList = new List<loginUserMenuOutPut>();
-            var getUserMenu = await _menuPermissions.GetUserRoleIdMenuList(id);
+            var getUserMenu = await menuPermissionsRepository.GetUserRoleIdMenuList(id);
             foreach (var item in getUserMenu.Where(x => x.Fatherid == Guid.Empty))
             {
                 menuList.Add(new loginUserMenuOutPut()
@@ -159,7 +159,6 @@ namespace DesignSetup.Application.SysUsers
                     children = ChildLoginUserMenuOutPuts(getUserMenu, item.Id)
                 });
             }
-
             return menuList;
         }
 

@@ -15,25 +15,25 @@ namespace DesignSetup.Host.Controllers
     [ApiController]
     [Area(DesignSetupDomainOptions.ApplicationName)]
     [Route("api/[controller]/[action]")]
-    public class PermissionMenuController(ISysMenuPermissionsAppService _menPermission) :DesignControllerBase
+    public class PermissionMenuController(ISysMenuPermissionsAppService menuAppService):DesignControllerBase
     {
 
         [HttpPost]
-        public Task<bool> InsertMenuAsync(SysMenuPermissionsDto t) => _menPermission.InsertMenuAsync(t);
+        public Task<bool> InsertMenuAsync(SysMenuPermissionsDto t) => menuAppService.InsertMenuAsync(t);
 
         [HttpPost]
-        public Task<bool> UpdateMenuAsync(SysMenuPermissionsDto t) => _menPermission.UpdateMenuAsync(t);
+        public Task<bool> UpdateMenuAsync(SysMenuPermissionsDto t) => menuAppService.UpdateMenuAsync(t);
 
         [HttpPost]
-        public Task<SysMenuPermissionsDto> GetMenuAsync(GetDto t) => _menPermission.GetMenuAsync(t);
+        public Task<SysMenuPermissionsDto> GetMenuAsync(GetDto t) => menuAppService.GetMenuAsync(t);
 
         [HttpPost]
-        public Task<List<TreeSelectOutPut>> TreeSelectAsync() => _menPermission.TreeSelectAsync();
+        public Task<List<TreeSelectOutPut>> TreeSelectAsync() => menuAppService.TreeSelectAsync();
 
         [HttpPost]
-        public  Task<PopedTableOutPut> PagedResultAsync(PagedResultInPut t) => _menPermission.PagedResultAsync(t);
+        public  Task<PopedTableOutPut> PagedResultAsync(PagedResultInPut t) => menuAppService.PagedResultAsync(t);
 
         [HttpPost]
-        public Task<bool> DeleteMenuAsync(GetDto t) => _menPermission.DeleteMenuAsync(t);
+        public Task<bool> DeleteMenuAsync(GetDto t) => menuAppService.DeleteMenuAsync(t);
     }
 }

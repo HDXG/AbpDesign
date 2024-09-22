@@ -8,7 +8,6 @@ using DesignSetup.Application.SysUsers.Dtos;
 using DesignSetup.Application.SysUsers.InPuts;
 using DesignSetup.Application.SysUsers.OutPuts;
 using DesignSetup.Domain;
-using DesignSetup.Domain.SysUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,30 +19,29 @@ namespace DesignSetup.Host.Controllers
     [Area(DesignSetupDomainOptions.ApplicationName)]
     [Route("api/[controller]/[action]")]
     public class UsersController (IConfiguration services,
-        ISysUserAppService _sysUserAppService) : DesignControllerBase
+        ISysUserAppService sysUserAppService) : DesignControllerBase
     {
         [HttpPost]
-        public Task<bool> InsertUser(InsertUserOutPut t)=> _sysUserAppService.InsertUserAsync(t);
+        public Task<bool> InsertUser(InsertUserOutPut t)=> sysUserAppService.InsertUserAsync(t);
 
         [HttpPost]
-        public Task<bool> UpdateUser(InsertUserOutPut t)=>_sysUserAppService.UpdateUserAsync(t);
+        public Task<bool> UpdateUser(InsertUserOutPut t)=> sysUserAppService.UpdateUserAsync(t);
 
         [HttpPost]
-        public Task<PagedResultOutPut<GetUserListDto>> GetPagedResult(GetUserPageListInPut t) => _sysUserAppService.GetPagedResultAsync(t);
+        public Task<PagedResultOutPut<GetUserListDto>> GetPagedResult(GetUserPageListInPut t) => sysUserAppService.GetPagedResultAsync(t);
 
         [HttpPost]
-        public Task<bool> Delete(GetDto t)=>_sysUserAppService.DeleteAsync(t);
+        public Task<bool> Delete(GetDto t)=> sysUserAppService.DeleteAsync(t);
 
         [HttpPost]
-        public Task<GetUserOutPut> GetUser(GetDto t) => _sysUserAppService.GetUserDto(t);
+        public Task<GetUserOutPut> GetUser(GetDto t) => sysUserAppService.GetUserDto(t);
 
 
         [HttpPost]
-        public Task<GetLogInOutPut> GetLoginUser(LoginUserInPut t) => _sysUserAppService.GetLogIn(t);
+        public Task<GetLogInOutPut> GetLoginUser(LoginUserInPut t) => sysUserAppService.GetLogIn(t);
 
         [HttpPost]
-        public Task<List<loginUserMenuOutPut>> GetByUserIdMenu(GetDto t) =>
-            _sysUserAppService.GetByUserIdMenu(t.Id);
+        public Task<List<loginUserMenuOutPut>> GetByUserIdMenu(GetDto t) => sysUserAppService.GetByUserIdMenu(t.Id);
 
         /// <summary>
         /// 创建token内容

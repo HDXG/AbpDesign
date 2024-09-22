@@ -4,7 +4,6 @@ using DesignAspNetCore.JwtExtensions;
 using DesignAspNetCore.SwaggerExtensions;
 using DesignSetup.Application;
 using DesignSetup.Domain;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Volo.Abp;
@@ -35,6 +34,9 @@ namespace DesignSetup.Host
         {
             var hostEnvironment = context.Services.GetAbpHostEnvironment();
             var configuration = context.Services.GetConfiguration();
+
+            
+
             //注册数据库内容
             Configure<AbpDbContextOptions>(options =>
             {
@@ -49,16 +51,16 @@ namespace DesignSetup.Host
             });
 
 
-            Configure<AbpAuditingOptions>(options =>
-            {
-                options.ApplicationName = DesignSetupDomainOptions.ApplicationName;
-                options.IsEnabledForGetRequests = true;
-            });
+            //Configure<AbpAuditingOptions>(options =>
+            //{
+            //    options.ApplicationName = DesignSetupDomainOptions.ApplicationName;
+            //    options.IsEnabledForGetRequests = true;
+            //});
 
             context.Services.ConfigurationJwt(configuration);
             context.Services.ConfigurationFilters();
             context.Services.ConfigurationUseCore(configuration);
-            context.Services.ConfigurationSwagger(swaggerConfiguration());
+            context.Services.ConfigurationSwagger(SwaggerConfiguration());
             //CSRF/XSRF 和防伪造系统
             Configure<AbpAntiForgeryOptions>(options =>
             {
@@ -93,23 +95,23 @@ namespace DesignSetup.Host
             app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseAuditing();
+            //app.UseAuditing();
             app.UseConfiguredEndpoints(option =>
             {
                 //option.MapControllers().RequireAuthorization();
             });
-            app.UseSwagger(swaggerConfiguration());
+            app.UseSwagger(SwaggerConfiguration());
         }
 
 
-        public SwaggerExtensionsOptions swaggerConfiguration()
+        public SwaggerExtensionsOptions SwaggerConfiguration()
         {
             return new SwaggerExtensionsOptions()
             {
                 apiServiceName = "DesignSetup",
-                swaggerInfo = new List<SwaggerOptions>() {
+                swaggerInfo = [
                     new SwaggerOptions() {ServiceName="setup",
-                    openApiInfos=new OpenApiInfo(){Title="DesignSetup",Description="DesignSetup详情",Version="1.0" } } }
+                    openApiInfos=new OpenApiInfo(){Title="DesignSetup",Description="DesignSetup详情",Version="1.0" } } ]
             };
         }
     }

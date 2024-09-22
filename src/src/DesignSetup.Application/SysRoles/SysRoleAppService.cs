@@ -24,7 +24,7 @@ namespace DesignSetup.Application.SysRoles
 
         Task<bool> UpdateRoleAsync(SysRoleDto t);
 
-        Task<SysRoleDto> GetRoleAsync(GetDto Id);
+        Task<SysRoleDto> GetRoleAsync(GetDto t);
 
         Task<bool> DeletePageAsync(GetDto t);
 
@@ -44,23 +44,23 @@ namespace DesignSetup.Application.SysRoles
         Task<TreePermissionsOutPut> TreePermissionsAsync(GetDto d);
 
     }
-    public class SysRoleAppService(ISysRoleRepository _roleRepository,
-        ISysRoleMenuRepository _romeMenu,
-        ISysMenuPermissionsRepository _sysMenuRepository) : DesignApplicationService, ISysRoleAppService
+    public class SysRoleAppService(ISysRoleRepository roleRepository,
+        ISysRoleMenuRepository roleMenuRepository,
+        ISysMenuPermissionsRepository menuPermissionsRepository) : DesignApplicationService, ISysRoleAppService
     {
         public async Task<bool> DeletePageAsync(GetDto t)
         {
-            await _roleRepository.DeleteAsync(x => x.Id == t.Id);
+            await roleRepository.DeleteAsync(x => x.Id == t.Id);
             return true;
         }
 
-        public async Task<SysRoleDto> GetRoleAsync(GetDto t) => ObjectMapper.Map<SysRole,SysRoleDto>(await _roleRepository.GetAsync(x => x.Id == t.Id));
+        public async Task<SysRoleDto> GetRoleAsync(GetDto t) => ObjectMapper.Map<SysRole,SysRoleDto>(await roleRepository.GetAsync(x => x.Id == t.Id));
 
-        public async Task<bool> InsertRoleAsync(SysRoleDto t) =>await _roleRepository.InsertAsync(ObjectMapper.Map<SysRoleDto, SysRole>(t)) != null;
+        public async Task<bool> InsertRoleAsync(SysRoleDto t) =>await roleRepository.InsertAsync(ObjectMapper.Map<SysRoleDto, SysRole>(t)) != null;
 
         public async Task<bool> InsertRoleMenuAsync(InsertRoleMenuInPut t)
         {
-            await _romeMenu.DeleteManyAsync(await _romeMenu.GetListAsync(x=>x.RoleId==t.Id));
+            await roleMenuRepository.DeleteManyAsync(await roleMenuRepository.GetListAsync(x=>x.RoleId==t.Id));
             List<SysRoleMenu> list = new List<SysRoleMenu>();
             foreach (var item in t.menuList)
             {
@@ -72,30 +72,30 @@ namespace DesignSetup.Application.SysRoles
                     CreateTime=DateTime.Now
                 });
             }
-            await _romeMenu.InsertManyAsync(list,true);
+            await roleMenuRepository.InsertManyAsync(list,true);
             return true;
         }
 
         public async Task<PagedResultOutPut<SysRoleDto>> PagedResultAsync(GetPageRoleDto t)
         {
-            var data = await _roleRepository.GetPagedListAsync(x=>x.RoleName.EndsWith(t.RoleName) && x.IsDelete,x=>x.Order,false,t.PageIndex,t.PageSize
+            var data = await roleRepository.GetPagedListAsync(x=>x.RoleName.EndsWith(t.RoleName) && x.IsDelete,x=>x.Order,false,t.PageIndex,t.PageSize
                 );
             return new PagedResultOutPut<SysRoleDto>(data.Item1,ObjectMapper.Map<List<SysRole>,List<SysRoleDto>>(data.Item2));
         }
 
         public async Task<List<RoleListDto>> RoleList() =>
-            ObjectMapper.Map<List<SysRole>, List<RoleListDto>>(await _roleRepository.GetListAsync(x => x.IsStatus));
+            ObjectMapper.Map<List<SysRole>, List<RoleListDto>>(await roleRepository.GetListAsync(x => x.IsStatus));
 
-        public async Task<bool> UpdateRoleAsync(SysRoleDto t) => await _roleRepository.UpdateAsync(ObjectMapper.Map<SysRoleDto,SysRole>(t)) != null;
+        public async Task<bool> UpdateRoleAsync(SysRoleDto t) => await roleRepository.UpdateAsync(ObjectMapper.Map<SysRoleDto,SysRole>(t)) != null;
 
 
         public async Task<TreePermissionsOutPut> TreePermissionsAsync(GetDto t)
         {
-            List<SysRoleMenu> roleMenu = await _romeMenu.GetListAsync(x => x.RoleId == t.Id);
+            List<SysRoleMenu> roleMenu = await roleMenuRepository.GetListAsync(x => x.RoleId == t.Id);
 
             //获取当前角色的权限
             List<TreePermissions> treePermissions = new List<TreePermissions>();
-            List<SysMenuPermissions> sysMenus = await _sysMenuRepository.GetListAsync(x => x.IsDelete && x.IsStatus);
+            List<SysMenuPermissions> sysMenus = await menuPermissionsRepository.GetListAsync(x => x.IsDelete && x.IsStatus);
             foreach (var item in sysMenus.Where(x => x.Fatherid == Guid.Empty))
             {
                 treePermissions.Add(new TreePermissions()
