@@ -2,7 +2,7 @@
 
 namespace DesignSetup.Application.Serilogs.InPut
 {
-    public class SerliogInput:PagingBase
+    public class SerilogInPut:PagingBase
     {
         public string HttpMethod { get; set; }
         public string url { get; set; }

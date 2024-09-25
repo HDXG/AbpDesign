@@ -62,18 +62,16 @@ namespace DesignAspNetCore.Filter
                 statusCode = 500;
                 ExceptionString = executedContext.Exception.Message;
             }
-
-            //记录数据库日志中
-            _logger
-                .ForContext("Url", request.Path)//记录请求地址
-                .ForContext("HttpMethod", method)// 记录请求方式
-                .ForContext("RequestJson", requestQueryString)//请求字符串
-                .ForContext("HttpStatusCode", statusCode)//状态码
-                .ForContext("ExceptionMessage", ExceptionString)
-                .ForContext("TotalMilliseconds", (_stopwatch.ElapsedMilliseconds / 1000d) + "s")
-                .ForContext("ResponseJson", JsonConvert.SerializeObject(data))
-                .Information("Request", request.Query); ;//响应数据json
-
+                //记录数据库日志中
+                _logger
+                    .ForContext("Url", request.Path)//记录请求地址
+                    .ForContext("HttpMethod", method)// 记录请求方式
+                    .ForContext("RequestJson", requestQueryString)//请求字符串
+                    .ForContext("HttpStatusCode", statusCode)//状态码
+                    .ForContext("ExceptionMessage", ExceptionString)
+                    .ForContext("TotalMilliseconds", (_stopwatch.ElapsedMilliseconds / 1000d) + "s")
+                    .ForContext("ResponseJson", JsonConvert.SerializeObject(data))
+                    .Information("Request", request.Query); ;//响应数据json
         }
 
 

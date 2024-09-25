@@ -139,7 +139,6 @@ namespace DesignSetup.Application.SysUsers
                 throw new Exception("当前用户不允许登录");
 
             getLogIn.UserInfo = new GetLogInUserInfoDto(sysUser.UserName,sysUser.Id);
-            getLogIn.menuList = await GetByUserIdMenu(sysUser.Id);
             return getLogIn;
         }
 

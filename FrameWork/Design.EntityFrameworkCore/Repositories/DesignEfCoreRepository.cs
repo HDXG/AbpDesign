@@ -13,10 +13,10 @@ namespace Design.EntityFrameworkCore.Repositories
        
         public  async Task<(int, List<TEntity>)> GetPagedListAsync<Key>(int skipCount, int taskCount, Expression<Func<TEntity, bool>> wherePredicate, Func<TEntity, Key> orderPredicate,bool isReverse=true)
         {
-            List<TEntity> Queryable =await (await GetQueryableAsync()).Where(wherePredicate).ToListAsync();
-            var count =  Queryable.Count();
-            var  Queryable2 =(isReverse ? Queryable.OrderByDescending(orderPredicate) : Queryable.OrderBy(orderPredicate));
-            return (count, Queryable2.Skip(skipCount).Take(taskCount).ToList());
+            List<TEntity> queryable =await (await GetQueryableAsync()).Where(wherePredicate).ToListAsync();
+            var count = queryable.Count();
+            var  queryable2 =(isReverse ? queryable.OrderByDescending(orderPredicate) : queryable.OrderBy(orderPredicate));
+            return (count, queryable2.Skip(skipCount).Take(taskCount).ToList());
         }
 
         /// <summary>

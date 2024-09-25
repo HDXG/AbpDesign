@@ -9,8 +9,6 @@ namespace DesignSetup.Application.SysUsers.OutPuts
         public string rolePermission { get; set; }
 
         public string token { get; set; }
-
-        public List<loginUserMenuOutPut> menuList { get; set; }
     }
 
     public class loginUserMenuOutPut
