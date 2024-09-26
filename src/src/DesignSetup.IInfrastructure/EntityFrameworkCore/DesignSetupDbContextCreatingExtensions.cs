@@ -19,30 +19,30 @@ namespace DesignSetup.Infrastructure.EntityFrameworkCore
 
             builder.Entity<SysUser>(b =>
             {
-                b.ToTable("SysUser", DesignSetupDomainOptions.DbTablePrefix);
+                b.ToTable("SysUser", "dbo");
                 b.HasKey(a => a.Id);
             });
 
             builder.Entity<SysMenuPermissions>(b =>
             {
-                b.ToTable("SysMenuPermissions", DesignSetupDomainOptions.DbTablePrefix);
+                b.ToTable("SysMenuPermissions", "dbo");
                 b.HasKey(a => a.Id);
             });
 
             builder.Entity<SysRoleMenu>(b =>
             {
-                b.ToTable("SysRoleMenu", DesignSetupDomainOptions.DbTablePrefix);
+                b.ToTable("SysRoleMenu", "dbo");
                 b.HasKey(a => a.Id);
             });
 
             builder.Entity<SysRole>(b =>
             {
-                b.ToTable("SysRole", DesignSetupDomainOptions.DbTablePrefix);
+                b.ToTable("SysRole", "dbo");
                 b.HasKey(a => a.Id);
             });
             builder.Entity<SysUserRole>(b =>
             {
-                b.ToTable("SysUserRole", DesignSetupDomainOptions.DbTablePrefix);
+                b.ToTable("SysUserRole", "dbo");
                 b.HasKey(a => a.Id);
             });
 

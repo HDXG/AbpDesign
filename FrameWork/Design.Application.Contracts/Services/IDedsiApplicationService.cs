@@ -2,7 +2,7 @@
 
 namespace Design.Application.Contracts.Services
 {
-    public interface IDedsiApplicationService:IApplicationService
+    public interface IDesignApplicationService : IApplicationService
     {
 
     }

@@ -12,7 +12,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace DesignSetup.Application.SysRoles
 {
-    public interface ISysRoleAppService
+    public interface ISysRoleAppService: IDesignApplicationService
     {
         /// <summary>
         /// 返回角色列表内容

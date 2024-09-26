@@ -12,7 +12,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace DesignSetup.Application.SysUsers
 {
-    public interface ISysUserAppService: IDedsiApplicationService
+    public interface ISysUserAppService: IDesignApplicationService
     {
         /// <summary>
         /// 添加用户

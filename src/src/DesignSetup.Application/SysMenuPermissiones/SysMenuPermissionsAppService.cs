@@ -1,4 +1,5 @@
 ﻿using Design.Application.Contracts.Extensions;
+using Design.Application.Contracts.Services;
 using Design.Application.Services;
 using DesignSetup.Application.SysMenuPermissiones.Dtos;
 using DesignSetup.Application.SysMenuPermissiones.InPuts;
@@ -7,7 +8,7 @@ using DesignSetup.Domain.SysMenuPermissiones;
 
 namespace DesignSetup.Application.SysMenuPermissiones
 {
-    public interface ISysMenuPermissionsAppService
+    public interface ISysMenuPermissionsAppService: IDesignApplicationService
     {
         /// <summary>
         /// 分页返回菜单列表

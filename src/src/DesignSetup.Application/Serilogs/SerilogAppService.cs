@@ -7,7 +7,7 @@ using DesignSetup.Domain.Serilogs;
 
 namespace DesignSetup.Application.Serilogs
 {
-    public interface ISerilogAppService: IDedsiApplicationService
+    public interface ISerilogAppService: IDesignApplicationService
     {
         /// <summary>
         /// 返回分页内容
