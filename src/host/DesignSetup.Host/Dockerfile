@@ -9,7 +9,6 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/host/DesignSetup.Host/DesignSetup.Host.csproj", "src/host/DesignSetup.Host/"]
 COPY ["FrameWork/Design.HttpApi/DesignAspNetCore.csproj", "FrameWork/Design.HttpApi/"]
 COPY ["src/src/DesignSetup.Application/DesignSetup.Application.csproj", "src/src/DesignSetup.Application/"]
 COPY ["FrameWork/Design.Application.Contracts/Design.Application.Contracts.csproj", "FrameWork/Design.Application.Contracts/"]
