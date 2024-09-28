@@ -9,12 +9,12 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-RUN dotnet restore "/DesignSetup.Host.csproj"
-RUN dotnet build "/DesignSetup.Host.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet restore "DesignSetup.Host.csproj"
+RUN dotnet build "DesignSetup.Host.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "/DesignSetup.Host.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "DesignSetup.Host.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
