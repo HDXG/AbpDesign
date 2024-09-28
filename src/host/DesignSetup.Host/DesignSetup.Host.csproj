@@ -7,6 +7,9 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <BaseOutputPath></BaseOutputPath>
     <DocumentationFile>E:\Net\MicroService\AbpDesign\template\host\DesignSetup.Host\bin\Debug\net8.0\DesignSetup.xml</DocumentationFile>
+    <UserSecretsId>9f4638cc-7ccb-4500-9a48-9b4f81be4dde</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.1" />
     <PackageReference Include="Volo.Abp.Autofac" Version="8.2.2" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="8.2.2" />

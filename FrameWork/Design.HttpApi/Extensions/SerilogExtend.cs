@@ -16,7 +16,7 @@ namespace DesignAspNetCore.Extensions
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning) // 排除Microsoft的日志
                 //.MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)//efCore 日志
                 .Enrich.FromLogContext() // 注册日志上下文
-                .WriteTo.MSSqlServer("Server=.;Database=NewAbp;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True;", sinkOptions: GetSqlServerSinkOptions(), columnOptions: GetColumnOptions())
+                .WriteTo.MSSqlServer("Server=154.8.199.203;uid=sa;pwd=Yjy000905!;Database=NewAbp;TrustServerCertificate=True;MultipleActiveResultSets=True;", sinkOptions: GetSqlServerSinkOptions(), columnOptions: GetColumnOptions())
                 .WriteTo.Async(c => c.File(path: "Logs/logs.txt", rollingInterval: RollingInterval.Day, retainedFileCountLimit: null))
                 .WriteTo.Async(c => c.Console()).CreateLogger();
             configureHostBuilder.UseSerilog(Log.Logger); // 注册serilog
