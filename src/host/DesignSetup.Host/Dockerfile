@@ -9,12 +9,23 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-RUN dotnet restore "DesignSetup.Host.csproj"
-RUN dotnet build "DesignSetup.Host.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY ["src/host/DesignSetup.Host/DesignSetup.Host.csproj", "src/host/DesignSetup.Host/"]
+COPY ["FrameWork/Design.HttpApi/DesignAspNetCore.csproj", "FrameWork/Design.HttpApi/"]
+COPY ["src/src/DesignSetup.Application/DesignSetup.Application.csproj", "src/src/DesignSetup.Application/"]
+COPY ["FrameWork/Design.Application.Contracts/Design.Application.Contracts.csproj", "FrameWork/Design.Application.Contracts/"]
+COPY ["FrameWork/Design.Application/Design.Application.csproj", "FrameWork/Design.Application/"]
+COPY ["src/src/DesignSetup.Domain/DesignSetup.Domain.csproj", "src/src/DesignSetup.Domain/"]
+COPY ["FrameWork/Design.Domain/Design.Domain.csproj", "FrameWork/Design.Domain/"]
+COPY ["src/src/DesignSetup.IInfrastructure/DesignSetup.Infrastructure.csproj", "src/src/DesignSetup.IInfrastructure/"]
+COPY ["FrameWork/Design.EntityFrameworkCore/Design.EntityFrameworkCore.csproj", "FrameWork/Design.EntityFrameworkCore/"]
+RUN dotnet restore "./src/host/DesignSetup.Host/DesignSetup.Host.csproj"
+COPY . .
+WORKDIR "/src/src/host/DesignSetup.Host"
+RUN dotnet build "./DesignSetup.Host.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "DesignSetup.Host.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./DesignSetup.Host.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

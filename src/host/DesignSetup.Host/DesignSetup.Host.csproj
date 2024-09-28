@@ -39,10 +39,4 @@
     <ProjectReference Include="..\..\src\DesignSetup.Application\DesignSetup.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Dockerfile">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
