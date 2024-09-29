@@ -49,10 +49,11 @@ namespace DesignSetup.Host
                 });
             });
 
+           
             context.Services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo("/root/.aspnet/DataProtection-Keys"))
-                .SetApplicationName("your-application-name");
-
+                .PersistKeysToFileSystem(new DirectoryInfo("/path/to/keys")) // Use a persistent path
+                .SetApplicationName("your-application-name")
+                .ProtectKeysWithDpapi();
             //Configure<AbpAuditingOptions>(options =>
             //{
             //    options.ApplicationName = DesignSetupDomainOptions.ApplicationName;
@@ -72,6 +73,8 @@ namespace DesignSetup.Host
                     type => !type.Namespace.StartsWith("DesignSetup.Host.Controllers");
             });
         }
+
+        
 
         /// <summary>
         /// 配置中间件 以及启动内容
