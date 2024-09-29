@@ -3,6 +3,7 @@ using DesignAspNetCore.Extensions;
 using DesignAspNetCore.JwtExtensions;
 using DesignAspNetCore.SwaggerExtensions;
 using DesignSetup.Application;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Volo.Abp;
@@ -48,6 +49,9 @@ namespace DesignSetup.Host
                 });
             });
 
+            context.Services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo("/root/.aspnet/DataProtection-Keys"))
+                .SetApplicationName("your-application-name");
 
             //Configure<AbpAuditingOptions>(options =>
             //{
