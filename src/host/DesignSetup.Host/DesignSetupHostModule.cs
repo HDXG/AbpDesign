@@ -49,11 +49,10 @@ namespace DesignSetup.Host
                 });
             });
 
-           
+
             context.Services.AddDataProtection()
                 .PersistKeysToFileSystem(new DirectoryInfo("/path/to/keys")) // Use a persistent path
-                .SetApplicationName("your-application-name")
-                .ProtectKeysWithDpapi();
+                .SetApplicationName("your-application-name");
             //Configure<AbpAuditingOptions>(options =>
             //{
             //    options.ApplicationName = DesignSetupDomainOptions.ApplicationName;
