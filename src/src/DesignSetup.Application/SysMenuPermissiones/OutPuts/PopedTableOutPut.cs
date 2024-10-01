@@ -10,11 +10,11 @@ namespace DesignSetup.Application.SysMenuPermissiones.OutPuts
     public class PopedTableOutPut
     {
         public long TotalCount { get; set; }
-        public List<PopedTableChilderOutPut> Items { get; set; }
+        public List<PopedTableChilderOutPut> Items { get; set; } = new List<PopedTableChilderOutPut>();
     }
     public class PopedTableChilderOutPut : SysMenuPermissionsDto
     {
         public int SerialNumber { get; set; }
-        public List<PopedTableChilderOutPut> children { get; set; }
+        public List<PopedTableChilderOutPut> children { get; set; } = new List<PopedTableChilderOutPut>();
     }
 }

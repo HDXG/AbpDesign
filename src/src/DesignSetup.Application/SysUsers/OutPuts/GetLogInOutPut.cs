@@ -6,34 +6,34 @@ namespace DesignSetup.Application.SysUsers.OutPuts
     {
         public GetLogInUserInfoDto UserInfo { get; set; }
 
-        public string rolePermission { get; set; }
+        public string? RolePermission { get; set; }
 
-        public string token { get; set; }
+        public string? Token { get; set; }
     }
 
     public class loginUserMenuOutPut
     {
 
-        public string title { get; set; }
+        public string? title { get; set; }
 
         /// <summary>
         /// 路由名称
         /// </summary>
-        public string RouteName { get; set; }
+        public string? RouteName { get; set; }
 
 
         /// <summary>
         /// 组件地址
         /// </summary>
-        public string ComponentPath { get; set; }
+        public string? ComponentPath { get; set; }
 
         /// <summary>
         /// 路由路径
         /// </summary>
-        public string MenuUrl { get; set; }
+        public string? MenuUrl { get; set; }
 
-        public string Icon { get; set; }
+        public string? Icon { get; set; }
 
-        public List<loginUserMenuOutPut> children { get; set; }
+        public List<loginUserMenuOutPut> children { get; set; } = new List<loginUserMenuOutPut>();
     }
 }

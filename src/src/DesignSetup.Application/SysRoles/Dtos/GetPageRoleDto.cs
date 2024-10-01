@@ -9,6 +9,6 @@ namespace DesignSetup.Application.SysRoles.Dtos
 {
     public class GetPageRoleDto: PagingBase
     {
-        public string RoleName { get; set; }
+        public string? RoleName { get; set; }
     }
 }

@@ -10,8 +10,8 @@ namespace DesignSetup.Application.SysRoles.Dtos
 {
     public class SysRoleDto:HasCreateDeleteEntityDto<Guid>
     {
-        public string RoleName { get; set; }
-        public string Note { get; set; }
+        public string? RoleName { get; set; }
+        public string? Note { get; set; }
         public bool IsDefault { get; set; }
         public bool IsStatus { get; set; }
         public int Order { get; set; }

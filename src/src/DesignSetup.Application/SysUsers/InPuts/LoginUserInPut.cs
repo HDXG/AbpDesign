@@ -5,7 +5,7 @@
     /// </summary>
     public class LoginUserInPut
     {
-        public string AccountNumber { get; set; }
-        public string PassWord { get; set; }
+        public string? AccountNumber { get; set; }
+        public string? PassWord { get; set; }
     }
 }

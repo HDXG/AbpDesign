@@ -9,6 +9,6 @@ namespace DesignSetup.Application.SysUsers.InPuts
 {
     public class GetUserPageListInPut:PagingBase
     {
-        public string userName { get; set; } 
+        public string? userName { get; set; } 
     }
 }

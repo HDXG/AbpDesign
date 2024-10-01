@@ -14,12 +14,12 @@ namespace DesignSetup.Application.SysUsers.Dtos
         /// <summary>
         /// 账号
         /// </summary>
-        public string AccountNumber { get; set; }
+        public string? AccountNumber { get; set; }
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; set; }
-        public string PassWord { get; set; }
+        public string? UserName { get; set; }
+        public string? PassWord { get; set; }
         /// <summary>
         /// 用户状态
         /// </summary>

@@ -4,6 +4,6 @@ namespace DesignSetup.Application.SysMenuPermissiones.InPuts
 {
     public class PagedResultInPut : PagingBase
     {
-        public string menuName { get; set; }
+        public string? menuName { get; set; }
     }
 }

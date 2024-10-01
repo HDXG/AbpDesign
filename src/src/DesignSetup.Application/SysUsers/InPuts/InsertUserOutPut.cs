@@ -11,6 +11,6 @@ namespace DesignSetup.Application.SysUsers.InPuts
     {
         public SysUserDto model { get; set; }
 
-        public List<Guid> guids { get; set; }
+        public List<Guid> guids { get; set; } = new List<Guid>();
     }
 }
