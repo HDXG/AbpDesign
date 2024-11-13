@@ -23,6 +23,7 @@ namespace DesignSetup.Host.Controllers
     {
         [HttpPost]
         public Task<PagedResultOutPut<SysRoleDto>> PagedResult(GetPageRoleDto t) => roleAppService.PagedResultAsync(t);
+        
         [HttpPost]
         public Task<bool> InsertRole(SysRoleDto t) => roleAppService.InsertRoleAsync(t);
 

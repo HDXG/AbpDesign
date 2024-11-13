@@ -15,7 +15,6 @@ namespace DesignSetup.Host.Controllers
   
     public class CodeGenerationController(ICodeGenerationAppService codeGeneration) : DesignControllerBase
     {
-
         [HttpPost]
         public Task<PagedResultOutPut<CodeGenerationDto>> GetTableSchemasDescribe(PagingBase t) => codeGeneration.GetTableSchemasDescribe(t);
     }
