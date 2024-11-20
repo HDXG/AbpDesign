@@ -1,4 +1,5 @@
-﻿using Design.HttpApi;
+﻿using System.Security.Cryptography.X509Certificates;
+using Design.HttpApi;
 using DesignAspNetCore.Extensions;
 using DesignAspNetCore.JwtExtensions;
 using DesignAspNetCore.SwaggerExtensions;
@@ -48,18 +49,13 @@ namespace DesignSetup.Host
                     dbConfigContext.UseSqlServer();
                 });
             });
+        //Configure<AbpAuditingOptions>(options =>
+        //{
+        //    options.ApplicationName = DesignSetupDomainOptions.ApplicationName;
+        //    options.IsEnabledForGetRequests = true;
+        //});
 
-
-            //context.Services.AddDataProtection()
-            //    .PersistKeysToFileSystem(new DirectoryInfo("/path/to/keys")) // Use a persistent path
-            //    .SetApplicationName("your-application-name");
-            //Configure<AbpAuditingOptions>(options =>
-            //{
-            //    options.ApplicationName = DesignSetupDomainOptions.ApplicationName;
-            //    options.IsEnabledForGetRequests = true;
-            //});
-
-            context.Services.ConfigurationJwt(configuration);
+        context.Services.ConfigurationJwt(configuration);
             context.Services.ConfigurationFilters();
             context.Services.ConfigurationUseCore(configuration);
             context.Services.ConfigurationSwagger(SwaggerConfiguration());
@@ -72,8 +68,6 @@ namespace DesignSetup.Host
                     type => !type.Namespace.StartsWith("DesignSetup.Host.Controllers");
             });
         }
-
-        
 
         /// <summary>
         /// 配置中间件 以及启动内容
