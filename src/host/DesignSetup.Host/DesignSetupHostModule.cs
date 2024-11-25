@@ -55,10 +55,11 @@ namespace DesignSetup.Host
         //    options.IsEnabledForGetRequests = true;
         //});
 
-        context.Services.ConfigurationJwt(configuration);
+            context.Services.ConfigurationJwt(configuration);
             context.Services.ConfigurationFilters();
             context.Services.ConfigurationUseCore(configuration);
             context.Services.ConfigurationSwagger(SwaggerConfiguration());
+
             //CSRF/XSRF 和防伪造系统
             Configure<AbpAntiForgeryOptions>(options =>
             {
@@ -85,8 +86,6 @@ namespace DesignSetup.Host
             }else
                 app.UseHsts();
 
-        
-            app.UseHttpsRedirection();
             app.UseCorrelationId();
             app.UseStaticFiles();
             app.UseRouting();
