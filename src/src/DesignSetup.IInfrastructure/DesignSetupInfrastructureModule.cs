@@ -18,6 +18,8 @@ namespace DesignSetup.Infrastructure
             {
                 options.AddDefaultRepositories(true);
             });
+
+            //context.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
         }
     }
 }

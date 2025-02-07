@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\FrameWork\Design.EntityFrameworkCore\Design.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\DesignSetup.Domain\DesignSetup.Domain.csproj" />
   </ItemGroup>

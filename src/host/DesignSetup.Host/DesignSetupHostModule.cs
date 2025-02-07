@@ -4,9 +4,12 @@ using DesignAspNetCore.Extensions;
 using DesignAspNetCore.JwtExtensions;
 using DesignAspNetCore.SwaggerExtensions;
 using DesignSetup.Application;
+using DesignSetup.Infrastructure.RabbitMQHelper;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
@@ -67,6 +70,16 @@ namespace DesignSetup.Host
                 options.AutoValidateFilter =
                     type => !type.Namespace.StartsWith("DesignSetup.Host.Controllers");
             });
+
+            context.Services.Configure<RabbitMQOptions>(configuration.GetSection("RabbitMQ"));
+            // 注册RabbitMQ连接工厂
+            context.Services.AddSingleton<IRabbitMQConnection, RabbitMQConnection>(sp =>
+            {
+                var options = sp.GetRequiredService<IOptions<RabbitMQOptions>>().Value;
+                var factory = new ConnectionFactory() { HostName = options.HostName, Port = options.Port, UserName = options.UserName, Password = options.Password };
+                return new RabbitMQConnection(factory);
+            });
+           
         }
 
         /// <summary>
@@ -85,7 +98,12 @@ namespace DesignSetup.Host
             }else
                 app.UseHsts();
 
-        
+
+            //var rabbitMQService = app.Services.GetRequiredService<IRabbitMQService>();
+            //var cancellationTokenSource = new CancellationTokenSource();
+            //var cancellationToken = cancellationTokenSource.Token;
+            //var receiveTask = rabbitMQService.ExecuteAsync("demo1", new CancellationTokenSource().Token);
+
             app.UseHttpsRedirection();
             app.UseCorrelationId();
             app.UseStaticFiles();
