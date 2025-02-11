@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.175" />
   </ItemGroup>
 
   <ItemGroup>

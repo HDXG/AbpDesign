@@ -22,9 +22,13 @@
 
   <ItemGroup>
     <Compile Remove="Logs\**" />
+    <Compile Remove="publish\**" />
     <Content Remove="Logs\**" />
+    <Content Remove="publish\**" />
     <EmbeddedResource Remove="Logs\**" />
+    <EmbeddedResource Remove="publish\**" />
     <None Remove="Logs\**" />
+    <None Remove="publish\**" />
   </ItemGroup>
 
   <ItemGroup>
